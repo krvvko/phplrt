@@ -10,11 +10,11 @@ declare(strict_types=1);
 namespace Phplrt\Tests\Parser;
 
 use Phplrt\Ast\Dumper\HoaDumper;
+use Phplrt\Io\Exception\NotReadableException;
 use Phplrt\Io\File;
 use Phplrt\Io\Readable;
-use PHPUnit\Framework\Exception;
 use Phplrt\Parser\ParserInterface;
-use Phplrt\Io\Exception\NotReadableException;
+use PHPUnit\Framework\Exception;
 
 /**
  * Class PP2ParserTestCase

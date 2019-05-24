@@ -9,8 +9,8 @@ declare(strict_types=1);
 
 namespace Phplrt\Parser\Driver;
 
-use Phplrt\Io\Readable;
 use Phplrt\Ast\RuleInterface;
+use Phplrt\Io\Readable;
 use Phplrt\Parser\ParserInterface;
 
 /**

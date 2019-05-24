@@ -9,11 +9,11 @@ declare(strict_types=1);
 
 namespace Phplrt\Exception;
 
-use Phplrt\Io\Readable;
-use Phplrt\Exception\MutableException\MutableFileInterface;
 use Phplrt\Exception\MutableException\MutableCodeInterface;
+use Phplrt\Exception\MutableException\MutableFileInterface;
 use Phplrt\Exception\MutableException\MutableMessageInterface;
 use Phplrt\Exception\MutableException\MutablePositionInterface;
+use Phplrt\Io\Readable;
 
 /**
  * Interface MutableExceptionInterface

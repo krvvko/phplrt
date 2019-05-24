@@ -9,13 +9,11 @@ declare(strict_types=1);
 
 namespace Phplrt\Parser;
 
+use Phplrt\Ast\RuleInterface;
 use Phplrt\Io\Readable;
 use Phplrt\Lexer\LexerInterface;
 use Phplrt\Lexer\Token\Unknown;
 use Phplrt\Lexer\TokenInterface;
-use Phplrt\Parser\Builder;
-use Phplrt\Parser\BuilderInterface;
-use Phplrt\Ast\RuleInterface;
 use Phplrt\Parser\Exception\GrammarException;
 use Phplrt\Parser\Exception\UnexpectedTokenException;
 use Phplrt\Parser\Rule\Alternation;
@@ -80,7 +78,7 @@ class Parser implements ParserInterface
      */
     public function __construct(LexerInterface $lexer, GrammarInterface $grammar)
     {
-        $this->lexer = $lexer;
+        $this->lexer   = $lexer;
         $this->grammar = $grammar;
     }
 
@@ -201,7 +199,7 @@ class Parser implements ParserInterface
         $this->errorToken = null;
 
         $this->trace = [];
-        $this->todo = [];
+        $this->todo  = [];
     }
 
     /**
@@ -385,7 +383,7 @@ class Parser implements ParserInterface
 
         if ($next === 0) {
             $name = $repeat->getName();
-            $min = $repeat->getMin();
+            $min  = $repeat->getMin();
 
             $this->addTrace(new Entry($name, $min));
 
@@ -441,7 +439,7 @@ class Parser implements ParserInterface
             return false;
         }
 
-        $this->todo = $last->getTodo();
+        $this->todo   = $last->getTodo();
         $this->todo[] = new Entry($last->getRule(), $last->getData() + 1);
 
         return true;

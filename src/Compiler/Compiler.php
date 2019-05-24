@@ -10,14 +10,14 @@ declare(strict_types=1);
 namespace Phplrt\Compiler;
 
 use Phplrt\Ast\RuleInterface;
-use Phplrt\Io\Readable;
-use Phplrt\Parser\ParserInterface;
 use Phplrt\Compiler\Grammar\Reader;
 use Phplrt\Exception\ExternalException;
 use Phplrt\Io\Exception\NotReadableException;
-use Zend\Code\Generator\ValueGenerator as Value;
+use Phplrt\Io\Readable;
+use Phplrt\Parser\ParserInterface;
 use Zend\Code\Exception\InvalidArgumentException;
 use Zend\Code\Generator\Exception\RuntimeException;
+use Zend\Code\Generator\ValueGenerator as Value;
 
 /**
  * Class Compiler

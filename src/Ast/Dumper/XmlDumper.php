@@ -84,7 +84,7 @@ class XmlDumper implements DumperInterface
      */
     private function document(): \DOMDocument
     {
-        $dom = new \DOMDocument($this->version, $this->charset);
+        $dom               = new \DOMDocument($this->version, $this->charset);
         $dom->formatOutput = $this->format;
 
         return $dom;

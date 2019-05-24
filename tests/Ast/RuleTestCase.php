@@ -33,8 +33,8 @@ class RuleTestCase extends TestCase
             new Leaf('b', 'b', 42),
             new Leaf('c', 'c', 42),
             new Rule('d', [
-                new Leaf('e', 'e', 42)
-            ])
+                new Leaf('e', 'e', 42),
+            ]),
         ], 42);
     }
 

@@ -9,10 +9,10 @@ declare(strict_types=1);
 
 namespace Phplrt\Io\File;
 
-use Phplrt\Stream\Factory;
-use Phplrt\Stream\StreamInterface;
 use Phplrt\Io\Exception\NotFoundException;
 use Phplrt\Io\Exception\NotReadableException;
+use Phplrt\Stream\Factory;
+use Phplrt\Stream\StreamInterface;
 
 /**
  * Class Physical

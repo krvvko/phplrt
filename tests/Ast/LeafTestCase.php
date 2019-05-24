@@ -10,7 +10,6 @@ declare(strict_types=1);
 namespace Phplrt\Tests\Ast;
 
 use Phplrt\Ast\Leaf;
-use Phplrt\Ast\LeafInterface;
 use Phplrt\Tests\Ast\Helper\AstAssertionTrait;
 use PHPUnit\Framework\ExpectationFailedException;
 
@@ -28,7 +27,7 @@ class LeafTestCase extends TestCase
     {
         $leaf = new Leaf('name', 'value', 42);
 
-        $this->assertEquals('name', $leaf->getName());
+        $this->assertSame('name', $leaf->getName());
     }
 
     /**
@@ -38,7 +37,7 @@ class LeafTestCase extends TestCase
     {
         $leaf = new Leaf('name', 'value', 42);
 
-        $this->assertEquals('value', $leaf->getValue());
+        $this->assertSame('value', $leaf->getValue());
     }
 
     /**
@@ -48,7 +47,7 @@ class LeafTestCase extends TestCase
     {
         $leaf = new Leaf('name', 'value', 42);
 
-        $this->assertEquals(42, $leaf->getOffset());
+        $this->assertSame(42, $leaf->getOffset());
     }
 
     /**

@@ -9,8 +9,8 @@ declare(strict_types=1);
 
 namespace Phplrt\Parser;
 
-use Phplrt\Io\Readable;
 use Phplrt\Ast\RuleInterface;
+use Phplrt\Io\Readable;
 
 /**
  * Interface ParserInterface
