@@ -1,5 +1,5 @@
 {
-    "name": "phplrt/contracts-parser",
+    "name": "phplrt/parser-contract",
     "type": "library",
     "description": "A set of phplrt parser abstractions",
     "license": "MIT",
@@ -21,7 +21,7 @@
     "homepage": "https://github.com/phplrt",
     "support": {
         "issues": "https://github.com/phplrt/phplrt/issues",
-        "source": "https://github.com/phplrt/contracts-parser"
+        "source": "https://github.com/phplrt/parser-contract"
     },
     "authors": [
         {
@@ -31,7 +31,7 @@
     ],
     "require": {
         "php": ">=7.1.3",
-        "phplrt/contracts-io": "2.0.*|2.0.x-dev"
+        "phplrt/io-contract": "2.0.*|2.0.x-dev"
     },
     "autoload": {
         "psr-4": {

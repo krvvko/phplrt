@@ -21,7 +21,7 @@
     ],
     "require": {
         "php": ">=7.1.3",
-        "phplrt/contracts-ast": "2.0.*|2.0.x-dev"
+        "phplrt/ast-contract": "2.0.*|2.0.x-dev"
     },
     "autoload": {
         "psr-4": {

@@ -21,7 +21,7 @@
     ],
     "require": {
         "php": ">=7.1.3",
-        "phplrt/contracts-stream": "2.0.*|2.0.x-dev",
+        "phplrt/stream-contract": "2.0.*|2.0.x-dev",
         "phplrt/exception": "2.0.*|2.0.x-dev",
         "psr/http-message": "1.0.*"
     },
