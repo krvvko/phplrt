@@ -10,7 +10,7 @@ declare(strict_types=1);
 namespace Phplrt\Parser\TokenStream;
 
 use Phplrt\Lexer\Token\EndOfInput;
-use Phplrt\Lexer\TokenInterface;
+use Phplrt\Contracts\Lexer\TokenInterface;
 
 /**
  * Class TokenStream

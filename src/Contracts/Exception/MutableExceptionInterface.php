@@ -7,13 +7,13 @@
  */
 declare(strict_types=1);
 
-namespace Phplrt\Exception;
+namespace Phplrt\Contracts\Exception;
 
-use Phplrt\Exception\MutableException\MutableCodeInterface;
-use Phplrt\Exception\MutableException\MutableFileInterface;
-use Phplrt\Exception\MutableException\MutableMessageInterface;
-use Phplrt\Exception\MutableException\MutablePositionInterface;
-use Phplrt\Io\Readable;
+use Phplrt\Contracts\Exception\MutableException\MutableCodeInterface;
+use Phplrt\Contracts\Exception\MutableException\MutableFileInterface;
+use Phplrt\Contracts\Exception\MutableException\MutableMessageInterface;
+use Phplrt\Contracts\Exception\MutableException\MutablePositionInterface;
+use Phplrt\Contracts\Io\Readable;
 
 /**
  * Interface MutableExceptionInterface

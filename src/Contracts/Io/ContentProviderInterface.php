@@ -7,9 +7,9 @@
  */
 declare(strict_types=1);
 
-namespace Phplrt\Io;
+namespace Phplrt\Contracts\Io;
 
-use Phplrt\Stream\StreamProviderInterface;
+use Phplrt\Contracts\Stream\StreamProviderInterface;
 
 /**
  * Interface ContentProviderInterface

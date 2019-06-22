@@ -7,7 +7,7 @@
  */
 declare(strict_types=1);
 
-namespace Phplrt\Stream;
+namespace Phplrt\Contracts\Stream;
 
 use Psr\Http\Message\StreamInterface as PsrStreamInterface;
 

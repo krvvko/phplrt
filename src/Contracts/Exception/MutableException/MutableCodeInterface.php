@@ -7,17 +7,16 @@
  */
 declare(strict_types=1);
 
-namespace Phplrt\Position;
+namespace Phplrt\Contracts\Exception\MutableException;
 
 /**
- * Providing the ability to get column of code from source text.
+ * Interface MutableCodeInterface
  */
-interface ProvidesColumn
+interface MutableCodeInterface
 {
     /**
-     * Returns a column from source code.
-     *
-     * @return int
+     * @param int $code
+     * @return MutableCodeInterface|$this
      */
-    public function getColumn(): int;
+    public function withCode(int $code = 0): self;
 }

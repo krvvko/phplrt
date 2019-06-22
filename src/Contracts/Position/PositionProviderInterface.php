@@ -7,7 +7,7 @@
  */
 declare(strict_types=1);
 
-namespace Phplrt\Position;
+namespace Phplrt\Contracts\Position;
 
 /**
  * Interface PositionProviderInterface

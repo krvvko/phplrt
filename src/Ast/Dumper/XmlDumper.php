@@ -9,9 +9,9 @@ declare(strict_types=1);
 
 namespace Phplrt\Ast\Dumper;
 
-use Phplrt\Ast\LeafInterface;
-use Phplrt\Ast\NodeInterface;
-use Phplrt\Ast\RuleInterface;
+use Phplrt\Contracts\Ast\LeafInterface;
+use Phplrt\Contracts\Ast\NodeInterface;
+use Phplrt\Contracts\Ast\RuleInterface;
 
 /**
  * Class XmlDumper

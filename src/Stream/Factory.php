@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace Phplrt\Stream;
 
+use Phplrt\Contracts\Stream\FactoryInterface;
+
 /**
  * Class Factory
  */

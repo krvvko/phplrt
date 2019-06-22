@@ -7,9 +7,9 @@
  */
 declare(strict_types=1);
 
-namespace Phplrt\Lexer;
+namespace Phplrt\Contracts\Lexer;
 
-use Phplrt\Io\Readable;
+use Phplrt\Contracts\Io\Readable;
 
 /**
  * Interface LexerInterface

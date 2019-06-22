@@ -11,6 +11,7 @@ namespace Phplrt\Ast;
 
 use Phplrt\Ast\Dumper\HoaDumper;
 use Phplrt\Ast\Dumper\XmlDumper;
+use Phplrt\Contracts\Ast\NodeInterface;
 
 /**
  * Class Node

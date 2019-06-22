@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace Phplrt\Parser\Trace;
 
-use Phplrt\Lexer\TokenInterface;
+use Phplrt\Contracts\Lexer\TokenInterface;
 
 /**
  * Class Token

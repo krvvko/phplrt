@@ -7,17 +7,17 @@
  */
 declare(strict_types=1);
 
-namespace Phplrt\Position;
+namespace Phplrt\Contracts\Position;
 
 /**
- * Providing the ability to get an offset in bytes from the source text.
+ * Providing the ability to get column of code from source text.
  */
-interface ProvidesOffset
+interface ProvidesColumn
 {
     /**
-     * Returns an offset value in bytes.
+     * Returns a column from source code.
      *
      * @return int
      */
-    public function getOffset(): int;
+    public function getColumn(): int;
 }

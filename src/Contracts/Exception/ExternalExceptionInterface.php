@@ -7,9 +7,9 @@
  */
 declare(strict_types=1);
 
-namespace Phplrt\Exception;
+namespace Phplrt\Contracts\Exception;
 
-use Phplrt\Position\PositionInterface;
+use Phplrt\Contracts\Position\PositionInterface;
 
 /**
  * Interface ExternalExceptionInterface

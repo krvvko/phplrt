@@ -10,11 +10,11 @@ declare(strict_types=1);
 namespace Phplrt\Parser;
 
 use Phplrt\Ast\Leaf;
-use Phplrt\Ast\LeafInterface;
+use Phplrt\Contracts\Ast\LeafInterface;
 use Phplrt\Ast\Node;
 use Phplrt\Ast\Rule;
-use Phplrt\Ast\RuleInterface;
-use Phplrt\Lexer\TokenInterface;
+use Phplrt\Contracts\Ast\RuleInterface;
+use Phplrt\Contracts\Lexer\TokenInterface;
 use Phplrt\Parser\Exception\GrammarException;
 use Phplrt\Parser\Trace\Entry;
 use Phplrt\Parser\Trace\Escape;

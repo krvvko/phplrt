@@ -7,7 +7,7 @@
  */
 declare(strict_types=1);
 
-namespace Phplrt\Exception\MutableException;
+namespace Phplrt\Contracts\Exception\MutableException;
 
 /**
  * Interface MutableFileInterface

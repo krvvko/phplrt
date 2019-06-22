@@ -14,7 +14,7 @@ use Phplrt\Compiler\Exception\IncludeNotFoundException;
 use Phplrt\Exception\ExternalException;
 use Phplrt\Io\Exception\NotReadableException;
 use Phplrt\Io\File;
-use Phplrt\Io\Readable;
+use Phplrt\Contracts\Io\Readable;
 
 /**
  * Class IncludeDelegate

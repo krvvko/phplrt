@@ -7,7 +7,7 @@
  */
 declare(strict_types=1);
 
-namespace Phplrt\Exception;
+namespace Phplrt\Contracts\Exception;
 
 /**
  * Interface FactoryInterface

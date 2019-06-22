@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace Phplrt\Ast\Dumper;
 
-use Phplrt\Ast\NodeInterface;
+use Phplrt\Contracts\Ast\NodeInterface;
 
 /**
  * Interface DumperInterface

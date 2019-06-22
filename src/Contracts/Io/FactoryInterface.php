@@ -7,7 +7,7 @@
  */
 declare(strict_types=1);
 
-namespace Phplrt\Io;
+namespace Phplrt\Contracts\Io;
 
 /**
  * Interface FactoryInterface

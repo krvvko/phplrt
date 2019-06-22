@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace Phplrt\Stream;
 
+use Phplrt\Contracts\Stream\StreamInterface;
 use Phplrt\Io\Exception\NotAccessibleException;
 
 /**

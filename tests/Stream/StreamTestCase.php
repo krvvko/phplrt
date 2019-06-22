@@ -11,7 +11,7 @@ namespace Phplrt\Tests\Stream;
 
 use Phplrt\Stream\Factory;
 use Phplrt\Stream\Stream;
-use Phplrt\Stream\StreamInterface;
+use Phplrt\Contracts\Stream\StreamInterface;
 use PHPUnit\Framework\TestCase;
 
 /**

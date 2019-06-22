@@ -11,7 +11,7 @@ namespace Phplrt\Tests\Io;
 
 use Phplrt\Io\Exception\NotReadableException;
 use Phplrt\Io\File;
-use Phplrt\Io\Readable;
+use Phplrt\Contracts\Io\Readable;
 use PHPUnit\Framework\ExpectationFailedException;
 
 /**

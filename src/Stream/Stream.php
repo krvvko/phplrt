@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace Phplrt\Stream;
 
+use Phplrt\Contracts\Stream\StreamInterface;
 use Phplrt\Stream\Exception\StreamException;
 
 /**
@@ -41,18 +42,7 @@ class Stream implements StreamInterface
      */
     private function assertIsResource($resource): bool
     {
-        switch (true) {
-            case \is_resource($resource):
-                return true;
-
-            // PHP 7.2 or greater
-            case \version_compare(\PHP_VERSION, '7.2') >= 1:
-                return \gettype($resource) === 'resource (closed)';
-
-            // PHP 7.1 or lower
-            default:
-                return \gettype($resource) === 'unknown type';
-        }
+        return Resource::match($resource);
     }
 
     /**

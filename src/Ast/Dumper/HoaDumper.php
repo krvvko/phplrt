@@ -9,9 +9,9 @@ declare(strict_types=1);
 
 namespace Phplrt\Ast\Dumper;
 
-use Phplrt\Ast\LeafInterface;
-use Phplrt\Ast\NodeInterface;
-use Phplrt\Ast\RuleInterface;
+use Phplrt\Contracts\Ast\LeafInterface;
+use Phplrt\Contracts\Ast\NodeInterface;
+use Phplrt\Contracts\Ast\RuleInterface;
 
 /**
  * Class HoaDumper
@@ -19,18 +19,31 @@ use Phplrt\Ast\RuleInterface;
 class HoaDumper implements DumperInterface
 {
     /**
+     * @var string
+     */
+    private const LINE_DELIMITER = \PHP_EOL;
+
+    /**
+     * @var string
+     */
+    private const TOKEN_TEMPLATE = 'token(%s, %s)';
+
+    /**
+     * @var string
+     */
+    private const TOKEN_PREFIX = '>  ';
+
+    /**
      * @param NodeInterface|RuleInterface|LeafInterface $node
      * @param int $depth
      * @return array
      */
     private function render(NodeInterface $node, int $depth = 1): array
     {
-        $prefix = \str_repeat('>  ', $depth);
+        $prefix = \str_repeat(self::TOKEN_PREFIX, $depth);
 
         if ($node instanceof LeafInterface) {
-            return [
-                $prefix . 'token(' . $node->getName() . ', ' . $node->getValue() . ')',
-            ];
+            return [$prefix . \sprintf(self::TOKEN_TEMPLATE, $node->getName(), $node->getValue())];
         }
 
         $result = [$prefix . $node->getName()];
@@ -51,6 +64,6 @@ class HoaDumper implements DumperInterface
      */
     public function dump($node): string
     {
-        return \implode("\n", $this->render($node));
+        return \implode(self::LINE_DELIMITER, $this->render($node));
     }
 }

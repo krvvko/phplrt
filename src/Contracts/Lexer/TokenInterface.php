@@ -7,7 +7,7 @@
  */
 declare(strict_types=1);
 
-namespace Phplrt\Lexer;
+namespace Phplrt\Contracts\Lexer;
 
 /**
  * The lexical token that returns from stream.

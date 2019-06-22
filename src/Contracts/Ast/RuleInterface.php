@@ -7,7 +7,7 @@
  */
 declare(strict_types=1);
 
-namespace Phplrt\Ast;
+namespace Phplrt\Contracts\Ast;
 
 /**
  * Interface RuleInterface

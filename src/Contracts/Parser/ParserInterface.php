@@ -7,10 +7,10 @@
  */
 declare(strict_types=1);
 
-namespace Phplrt\Parser;
+namespace Phplrt\Contracts\Parser;
 
-use Phplrt\Ast\RuleInterface;
-use Phplrt\Io\Readable;
+use Phplrt\Contracts\Ast\RuleInterface;
+use Phplrt\Contracts\Io\Readable;
 
 /**
  * Interface ParserInterface

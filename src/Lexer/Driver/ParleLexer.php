@@ -12,14 +12,14 @@ namespace Phplrt\Lexer\Driver;
 use Parle\Lexer as Parle;
 use Parle\LexerException;
 use Parle\Token as InternalToken;
-use Phplrt\Io\Readable;
+use Phplrt\Contracts\Lexer\LexerInterface;
+use Phplrt\Contracts\Lexer\TokenInterface;
+use Phplrt\Contracts\Io\Readable;
 use Phplrt\Lexer\Definition\TokenDefinition;
 use Phplrt\Lexer\Exception\BadLexemeException;
-use Phplrt\Lexer\LexerInterface;
 use Phplrt\Lexer\Token\EndOfInput;
 use Phplrt\Lexer\Token\Token;
 use Phplrt\Lexer\Token\Unknown;
-use Phplrt\Lexer\TokenInterface;
 
 /**
  * Class ParleStateless
