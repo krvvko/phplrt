@@ -9,10 +9,10 @@ declare(strict_types=1);
 
 namespace Phplrt\Exception\MutableException;
 
-use Phplrt\Position\Position;
+use Phplrt\Contracts\Exception\MutableExceptionInterface;
 use Phplrt\Contracts\Io\Readable;
 use Phplrt\Contracts\Position\PositionInterface;
-use Phplrt\Contracts\Exception\MutableExceptionInterface;
+use Phplrt\Position\Position;
 
 /**
  * Trait MutableExceptionTrait

@@ -9,8 +9,8 @@ declare(strict_types=1);
 
 namespace Phplrt\Io\File;
 
-use Phplrt\Stream\Factory;
 use Phplrt\Contracts\Stream\StreamInterface;
+use Phplrt\Stream\Factory;
 
 /**
  * Class Virtual

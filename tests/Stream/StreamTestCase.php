@@ -9,9 +9,9 @@ declare(strict_types=1);
 
 namespace Phplrt\Tests\Stream;
 
+use Phplrt\Contracts\Stream\StreamInterface;
 use Phplrt\Stream\Factory;
 use Phplrt\Stream\Stream;
-use Phplrt\Contracts\Stream\StreamInterface;
 use PHPUnit\Framework\TestCase;
 
 /**

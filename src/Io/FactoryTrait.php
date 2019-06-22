@@ -9,9 +9,9 @@ declare(strict_types=1);
 
 namespace Phplrt\Io;
 
-use Phplrt\Io\File\Virtual;
-use Phplrt\Io\File\Physical;
 use Phplrt\Contracts\Io\Readable;
+use Phplrt\Io\File\Physical;
+use Phplrt\Io\File\Virtual;
 
 /**
  * Trait FactoryTrait

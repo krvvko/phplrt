@@ -9,12 +9,12 @@ declare(strict_types=1);
 
 namespace Phplrt\Tests\Parser;
 
-use Phplrt\Io\File;
 use Phplrt\Ast\Dumper\HoaDumper;
-use PHPUnit\Framework\Exception;
 use Phplrt\Contracts\Io\Readable;
 use Phplrt\Contracts\Parser\ParserInterface;
 use Phplrt\Io\Exception\NotReadableException;
+use Phplrt\Io\File;
+use PHPUnit\Framework\Exception;
 
 /**
  * Class PP2ParserTestCase
@@ -60,6 +60,6 @@ class ParserTestCase extends TestCase
         $haystack = \trim(\file_get_contents($file->getPathname() . '.txt'));
         $haystack = \str_replace("\r", '', $haystack);
 
-        $this->assertEquals($haystack, \str_replace("\r", '', $actual));
+        $this->assertSame($haystack, \str_replace("\r", '', $actual));
     }
 }

@@ -9,25 +9,25 @@ declare(strict_types=1);
 
 namespace Phplrt\Parser;
 
-use Phplrt\Contracts\Io\Readable;
-use Phplrt\Parser\Rule\Rule;
 use Phplrt\Contracts\Ast\RuleInterface;
-use Phplrt\Parser\Trace\Entry;
-use Phplrt\Parser\Trace\Token;
-use Phplrt\Lexer\Token\Unknown;
-use Phplrt\Parser\Trace\Escape;
-use Phplrt\Parser\Rule\Terminal;
-use Phplrt\Parser\Rule\Repetition;
-use Phplrt\Parser\Trace\TraceItem;
-use Phplrt\Parser\Rule\Alternation;
-use Phplrt\Parser\Rule\Concatenation;
-use Phplrt\Exception\ExternalException;
+use Phplrt\Contracts\Io\Readable;
 use Phplrt\Contracts\Lexer\LexerInterface;
 use Phplrt\Contracts\Lexer\TokenInterface;
-use Phplrt\Parser\TokenStream\TokenStream;
 use Phplrt\Contracts\Parser\ParserInterface;
+use Phplrt\Exception\ExternalException;
+use Phplrt\Lexer\Token\Unknown;
 use Phplrt\Parser\Exception\GrammarException;
 use Phplrt\Parser\Exception\UnexpectedTokenException;
+use Phplrt\Parser\Rule\Alternation;
+use Phplrt\Parser\Rule\Concatenation;
+use Phplrt\Parser\Rule\Repetition;
+use Phplrt\Parser\Rule\Rule;
+use Phplrt\Parser\Rule\Terminal;
+use Phplrt\Parser\TokenStream\TokenStream;
+use Phplrt\Parser\Trace\Entry;
+use Phplrt\Parser\Trace\Escape;
+use Phplrt\Parser\Trace\Token;
+use Phplrt\Parser\Trace\TraceItem;
 
 /**
  * Class Parser
@@ -80,7 +80,7 @@ class Parser implements ParserInterface
      */
     public function __construct(LexerInterface $lexer, GrammarInterface $grammar)
     {
-        $this->lexer = $lexer;
+        $this->lexer   = $lexer;
         $this->grammar = $grammar;
     }
 
@@ -201,7 +201,7 @@ class Parser implements ParserInterface
         $this->errorToken = null;
 
         $this->trace = [];
-        $this->todo = [];
+        $this->todo  = [];
     }
 
     /**
@@ -385,7 +385,7 @@ class Parser implements ParserInterface
 
         if ($next === 0) {
             $name = $repeat->getName();
-            $min = $repeat->getMin();
+            $min  = $repeat->getMin();
 
             $this->addTrace(new Entry($name, $min));
 
@@ -441,7 +441,7 @@ class Parser implements ParserInterface
             return false;
         }
 
-        $this->todo = $last->getTodo();
+        $this->todo   = $last->getTodo();
         $this->todo[] = new Entry($last->getRule(), $last->getData() + 1);
 
         return true;
