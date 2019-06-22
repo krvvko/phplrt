@@ -11,10 +11,10 @@ namespace Phplrt\Compiler\Grammar\Delegate;
 
 use Phplrt\Ast\Rule;
 use Phplrt\Compiler\Exception\IncludeNotFoundException;
+use Phplrt\Contracts\Io\Readable;
 use Phplrt\Exception\ExternalException;
 use Phplrt\Io\Exception\NotReadableException;
 use Phplrt\Io\File;
-use Phplrt\Contracts\Io\Readable;
 
 /**
  * Class IncludeDelegate

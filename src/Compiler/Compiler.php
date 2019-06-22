@@ -9,12 +9,12 @@ declare(strict_types=1);
 
 namespace Phplrt\Compiler;
 
-use Phplrt\Contracts\Ast\RuleInterface;
 use Phplrt\Compiler\Grammar\Reader;
-use Phplrt\Exception\ExternalException;
-use Phplrt\Io\Exception\NotReadableException;
+use Phplrt\Contracts\Ast\RuleInterface;
 use Phplrt\Contracts\Io\Readable;
 use Phplrt\Contracts\Parser\ParserInterface;
+use Phplrt\Exception\ExternalException;
+use Phplrt\Io\Exception\NotReadableException;
 use Zend\Code\Exception\InvalidArgumentException;
 use Zend\Code\Generator\Exception\RuntimeException;
 use Zend\Code\Generator\ValueGenerator as Value;
