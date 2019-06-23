@@ -10,7 +10,6 @@ declare(strict_types=1);
 namespace Phplrt\Io\File;
 
 use Phplrt\Contracts\Stream\ReadableStreamInterface;
-use Phplrt\Contracts\Stream\StreamInterface;
 use Phplrt\Stream\Factory;
 
 /**
