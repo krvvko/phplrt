@@ -63,49 +63,49 @@
         },
 
         "phplrt/ast-contracts": {
-            "remote": "git@github.com:phplrt/ast-contract.git",
+            "remote": "git@github.com:phplrt/ast-contracts.git",
             "dirs": {
                 "../src/Contracts/Ast": "."
             }
         },
         "phplrt/dumper-contracts": {
-            "remote": "git@github.com:phplrt/dumper-contract.git",
+            "remote": "git@github.com:phplrt/dumper-contracts.git",
             "dirs": {
                 "../src/Contracts/Dumper": "."
             }
         },
         "phplrt/exception-contracts": {
-            "remote": "git@github.com:phplrt/exception-contract.git",
+            "remote": "git@github.com:phplrt/exception-contracts.git",
             "dirs": {
                 "../src/Contracts/Exception": "."
             }
         },
         "phplrt/io-contracts": {
-            "remote": "git@github.com:phplrt/io-contract.git",
+            "remote": "git@github.com:phplrt/io-contracts.git",
             "dirs": {
                 "../src/Contracts/Io": "."
             }
         },
         "phplrt/lexer-contracts": {
-            "remote": "git@github.com:phplrt/lexer-contract.git",
+            "remote": "git@github.com:phplrt/lexer-contracts.git",
             "dirs": {
                 "../src/Contracts/Lexer": "."
             }
         },
         "phplrt/parser-contracts": {
-            "remote": "git@github.com:phplrt/parser-contract.git",
+            "remote": "git@github.com:phplrt/parser-contracts.git",
             "dirs": {
                 "../src/Contracts/Parser": "."
             }
         },
         "phplrt/position-contracts": {
-            "remote": "git@github.com:phplrt/position-contract.git",
+            "remote": "git@github.com:phplrt/position-contracts.git",
             "dirs": {
                 "../src/Contracts/Position": "."
             }
         },
         "phplrt/stream-contracts": {
-            "remote": "git@github.com:phplrt/stream-contract.git",
+            "remote": "git@github.com:phplrt/stream-contracts.git",
             "dirs": {
                 "../src/Contracts/Stream": "."
             }
