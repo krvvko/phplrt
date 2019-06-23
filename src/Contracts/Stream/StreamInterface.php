@@ -9,35 +9,29 @@ declare(strict_types=1);
 
 namespace Phplrt\Contracts\Stream;
 
-use Psr\Http\Message\StreamInterface as PsrStreamInterface;
-
 /**
  * Interface StreamInterface
  */
-interface StreamInterface extends PsrStreamInterface
+interface StreamInterface
 {
     /**
-     * Gets string line from file pointer.
+     * Closes the stream and any underlying resources.
      *
-     * @return string Returns the data read from the stream, or an empty string
-     *     if no bytes are available.
-     * @throws \RuntimeException if an error occurs.
-     */
-    public function readLine(): string;
-
-    /**
-     * Acquire a shared lock for reading.
-     *
-     * @param int $mode
      * @return void
      */
-    public function lock(int $mode = \LOCK_SH): void;
+    public function close(): void;
 
     /**
-     * Unlock resource.
+     * Get stream metadata as an associative array or retrieve a specific key.
      *
-     * @throws \RuntimeException if an error occurs.
-     * @return void
+     * The keys returned are identical to the keys returned from PHP's
+     * stream_get_meta_data() function.
+     *
+     * @link http://php.net/manual/en/function.stream-get-meta-data.php
+     * @param string $key Specific metadata to retrieve.
+     * @return array|mixed|null Returns an associative array if no key is
+     *     provided. Returns a specific key value if a key is provided and the
+     *     value is found, or null if the key is not found.
      */
-    public function unlock(): void;
+    public function getMetadata($key = null);
 }

@@ -19,6 +19,12 @@
                 "../src/Compiler": "."
             }
         },
+        "phplrt/dumper": {
+            "remote": "git@github.com:phplrt/dumper.git",
+            "dirs": {
+                "../src/Dumper": "."
+            }
+        },
         "phplrt/exception": {
             "remote": "git@github.com:phplrt/exception.git",
             "dirs": {
@@ -53,6 +59,55 @@
             "remote": "git@github.com:phplrt/stream.git",
             "dirs": {
                 "../src/Stream": "."
+            }
+        },
+
+        "phplrt/ast-contract": {
+            "remote": "git@github.com:phplrt/ast-contract.git",
+            "dirs": {
+                "../src/Contracts/Ast": "."
+            }
+        },
+        "phplrt/dumper-contract": {
+            "remote": "git@github.com:phplrt/dumper-contract.git",
+            "dirs": {
+                "../src/Contracts/Dumper": "."
+            }
+        },
+        "phplrt/exception-contract": {
+            "remote": "git@github.com:phplrt/exception-contract.git",
+            "dirs": {
+                "../src/Contracts/Exception": "."
+            }
+        },
+        "phplrt/io-contract": {
+            "remote": "git@github.com:phplrt/io-contract.git",
+            "dirs": {
+                "../src/Contracts/Io": "."
+            }
+        },
+        "phplrt/lexer-contract": {
+            "remote": "git@github.com:phplrt/lexer-contract.git",
+            "dirs": {
+                "../src/Contracts/Lexer": "."
+            }
+        },
+        "phplrt/parser-contract": {
+            "remote": "git@github.com:phplrt/parser-contract.git",
+            "dirs": {
+                "../src/Contracts/Parser": "."
+            }
+        },
+        "phplrt/position-contract": {
+            "remote": "git@github.com:phplrt/position-contract.git",
+            "dirs": {
+                "../src/Contracts/Position": "."
+            }
+        },
+        "phplrt/stream-contract": {
+            "remote": "git@github.com:phplrt/stream-contract.git",
+            "dirs": {
+                "../src/Contracts/Stream": "."
             }
         }
     }

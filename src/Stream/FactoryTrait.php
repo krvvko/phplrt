@@ -9,7 +9,9 @@ declare(strict_types=1);
 
 namespace Phplrt\Stream;
 
+use Phplrt\Contracts\Stream\ReadableStreamInterface;
 use Phplrt\Contracts\Stream\StreamInterface;
+use Phplrt\Contracts\Stream\WritableStreamInterface;
 use Phplrt\Io\Exception\NotAccessibleException;
 
 /**
@@ -21,10 +23,10 @@ trait FactoryTrait
 {
     /**
      * @param string $content
-     * @return StreamInterface|static
+     * @return ReadableStreamInterface|static
      * @throws \Throwable
      */
-    public static function fromContent(string $content): StreamInterface
+    public static function fromContent(string $content): ReadableStreamInterface
     {
         $memory = self::open('php://memory', 'rb+');
 
@@ -69,9 +71,9 @@ trait FactoryTrait
     /**
      * @param string $pathname
      * @param array $options
-     * @return StreamInterface|static
+     * @return WritableStreamInterface|static
      */
-    public static function fromPathname(string $pathname, array $options = []): StreamInterface
+    public static function fromPathname(string $pathname, array $options = []): WritableStreamInterface
     {
         $resource = self::open($pathname, 'rb', false, \stream_context_create($options));
 

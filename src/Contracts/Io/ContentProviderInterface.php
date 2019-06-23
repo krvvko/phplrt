@@ -9,12 +9,12 @@ declare(strict_types=1);
 
 namespace Phplrt\Contracts\Io;
 
-use Phplrt\Contracts\Stream\StreamProviderInterface;
+use Phplrt\Contracts\Stream\ReadableStreamInterface;
 
 /**
  * Interface ContentProviderInterface
  */
-interface ContentProviderInterface extends StreamProviderInterface
+interface ContentProviderInterface
 {
     /**
      * Returns the full contents of the source.
@@ -24,12 +24,7 @@ interface ContentProviderInterface extends StreamProviderInterface
     public function getContents(): string;
 
     /**
-     * Returns content stream
-     *
-     * @deprecated Since version 1.1. Please use getStream() method instead.
-     * @param bool $exclusive Exclusive access to the file means that it
-     *      cannot be accessed by other programs while reading the sources.
-     * @return resource
+     * @return ReadableStreamInterface
      */
-    public function getStreamContents(bool $exclusive = false);
+    public function getStream(): ReadableStreamInterface;
 }

@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace Phplrt\Tests\Ast\Helper;
 
-use Phplrt\Ast\Dumper\XmlDumper;
+use Phplrt\Dumper\XmlDumper;
 use Phplrt\Contracts\Ast\NodeInterface;
 
 /**

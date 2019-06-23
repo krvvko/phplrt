@@ -9,13 +9,14 @@ declare(strict_types=1);
 
 namespace Phplrt\Stream;
 
-use Phplrt\Contracts\Stream\StreamInterface;
+use Phplrt\Contracts\Stream\WritableStreamInterface;
 use Phplrt\Stream\Exception\StreamException;
+use Psr\Http\Message\StreamInterface;
 
 /**
  * Class Stream
  */
-class Stream implements StreamInterface
+class Stream implements WritableStreamInterface, StreamInterface
 {
     /**
      * @var resource
@@ -331,6 +332,14 @@ class Stream implements StreamInterface
         }
 
         return $status;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function writeLine($string, string $separator = \PHP_EOL): int
+    {
+        return $this->write($string . $separator);
     }
 
     /**
