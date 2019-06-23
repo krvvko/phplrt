@@ -29,6 +29,9 @@
             "Phplrt\\Exception\\": ""
         }
     },
+    "provide": {
+        "phplrt/exception-implementation": "2.0.0"
+    },
     "extra": {
         "branch-alias": {
             "master": "2.0.x-dev"

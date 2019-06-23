@@ -7,7 +7,7 @@
  */
 declare(strict_types=1);
 
-namespace Phplrt\Ast\Dumper;
+namespace Phplrt\Contracts\Dumper;
 
 use Phplrt\Contracts\Ast\NodeInterface;
 

@@ -30,6 +30,10 @@
             "Phplrt\\Stream\\": ""
         }
     },
+    "provide": {
+        "phplrt/stream-implementation": "2.0.0",
+        "psr/http-message-implementation": "1.0.0"
+    },
     "extra": {
         "branch-alias": {
             "master": "2.0.x-dev"

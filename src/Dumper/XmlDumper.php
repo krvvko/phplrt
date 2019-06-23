@@ -7,11 +7,12 @@
  */
 declare(strict_types=1);
 
-namespace Phplrt\Ast\Dumper;
+namespace Phplrt\Dumper;
 
 use Phplrt\Contracts\Ast\LeafInterface;
 use Phplrt\Contracts\Ast\NodeInterface;
 use Phplrt\Contracts\Ast\RuleInterface;
+use Phplrt\Contracts\Dumper\DumperInterface;
 
 /**
  * Class XmlDumper

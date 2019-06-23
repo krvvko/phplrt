@@ -11,7 +11,6 @@
         "interoperability",
         "standards",
         "ast",
-        "dump",
         "tree"
     ],
     "homepage": "https://github.com/phplrt",
