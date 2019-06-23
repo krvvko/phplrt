@@ -62,49 +62,49 @@
             }
         },
 
-        "phplrt/ast-contract": {
+        "phplrt/ast-contracts": {
             "remote": "git@github.com:phplrt/ast-contract.git",
             "dirs": {
                 "../src/Contracts/Ast": "."
             }
         },
-        "phplrt/dumper-contract": {
+        "phplrt/dumper-contracts": {
             "remote": "git@github.com:phplrt/dumper-contract.git",
             "dirs": {
                 "../src/Contracts/Dumper": "."
             }
         },
-        "phplrt/exception-contract": {
+        "phplrt/exception-contracts": {
             "remote": "git@github.com:phplrt/exception-contract.git",
             "dirs": {
                 "../src/Contracts/Exception": "."
             }
         },
-        "phplrt/io-contract": {
+        "phplrt/io-contracts": {
             "remote": "git@github.com:phplrt/io-contract.git",
             "dirs": {
                 "../src/Contracts/Io": "."
             }
         },
-        "phplrt/lexer-contract": {
+        "phplrt/lexer-contracts": {
             "remote": "git@github.com:phplrt/lexer-contract.git",
             "dirs": {
                 "../src/Contracts/Lexer": "."
             }
         },
-        "phplrt/parser-contract": {
+        "phplrt/parser-contracts": {
             "remote": "git@github.com:phplrt/parser-contract.git",
             "dirs": {
                 "../src/Contracts/Parser": "."
             }
         },
-        "phplrt/position-contract": {
+        "phplrt/position-contracts": {
             "remote": "git@github.com:phplrt/position-contract.git",
             "dirs": {
                 "../src/Contracts/Position": "."
             }
         },
-        "phplrt/stream-contract": {
+        "phplrt/stream-contracts": {
             "remote": "git@github.com:phplrt/stream-contract.git",
             "dirs": {
                 "../src/Contracts/Stream": "."

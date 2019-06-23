@@ -1,5 +1,5 @@
 {
-    "name": "phplrt/position-contract",
+    "name": "phplrt/position-contracts",
     "type": "library",
     "description": "A set of phplrt position abstractions",
     "license": "MIT",

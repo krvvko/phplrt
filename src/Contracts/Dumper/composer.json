@@ -1,5 +1,5 @@
 {
-    "name": "phplrt/dumper-contract",
+    "name": "phplrt/dumper-contracts",
     "type": "library",
     "description": "A set of phplrt ast dumper abstractions",
     "license": "MIT",

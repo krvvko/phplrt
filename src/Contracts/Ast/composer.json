@@ -1,5 +1,5 @@
 {
-    "name": "phplrt/ast-contract",
+    "name": "phplrt/ast-contracts",
     "type": "library",
     "description": "A set of phplrt ast abstractions",
     "license": "MIT",

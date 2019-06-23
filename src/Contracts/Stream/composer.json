@@ -1,5 +1,5 @@
 {
-    "name": "phplrt/stream-contract",
+    "name": "phplrt/stream-contracts",
     "type": "library",
     "description": "A set of phplrt stream abstractions",
     "license": "MIT",
