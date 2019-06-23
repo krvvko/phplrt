@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace Phplrt\Contracts\Io;
 
-use Phplrt\Contracts\Stream\ReadableStreamInterface;
+use Phplrt\Contracts\Stream\SeekableStreamInterface;
 
 /**
  * Interface ContentProviderInterface
@@ -24,7 +24,7 @@ interface ContentProviderInterface
     public function getContents(): string;
 
     /**
-     * @return ReadableStreamInterface
+     * @return SeekableStreamInterface
      */
-    public function getStream(): ReadableStreamInterface;
+    public function getStream(): SeekableStreamInterface;
 }
