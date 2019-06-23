@@ -1,7 +1,7 @@
 {
     "name": "phplrt/dumper",
     "type": "library",
-    "description": "The phplrt abstract syntax tree dumper package.",
+    "description": "The phplrt abstract syntax tree dumper package",
     "license": "MIT",
     "keywords": [
         "dump",

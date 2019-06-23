@@ -1,5 +1,5 @@
 {
-    "name": "phplrt/contratcs-lexer",
+    "name": "phplrt/lexer-contract",
     "type": "library",
     "description": "A set of phplrt lexer abstractions",
     "license": "MIT",
