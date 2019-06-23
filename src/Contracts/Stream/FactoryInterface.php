@@ -16,16 +16,16 @@ interface FactoryInterface
 {
     /**
      * @param string $content
-     * @return ReadableStreamInterface
+     * @return SeekableStreamInterface
      */
-    public static function fromContent(string $content): ReadableStreamInterface;
+    public static function fromContent(string $content): SeekableStreamInterface;
 
     /**
      * @param string $pathname
      * @param array $options
-     * @return WritableStreamInterface
+     * @return SeekableStreamInterface
      */
-    public static function fromPathname(string $pathname, array $options = []): WritableStreamInterface;
+    public static function fromPathname(string $pathname, array $options = []): SeekableStreamInterface;
 
     /**
      * @param resource $resource
