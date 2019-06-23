@@ -27,7 +27,7 @@ interface StreamInterface
      * The keys returned are identical to the keys returned from PHP's
      * stream_get_meta_data() function.
      *
-     * @link http://php.net/manual/en/function.stream-get-meta-data.php
+     * @see http://php.net/manual/en/function.stream-get-meta-data.php
      * @param string $key Specific metadata to retrieve.
      * @return array|mixed|null Returns an associative array if no key is
      *     provided. Returns a specific key value if a key is provided and the

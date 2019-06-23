@@ -25,7 +25,7 @@ interface SeekableStreamInterface extends ReadableStreamInterface
     /**
      * Seek to a position in the stream.
      *
-     * @link http://www.php.net/manual/en/function.fseek.php
+     * @see http://www.php.net/manual/en/function.fseek.php
      * @param int $offset Stream offset
      * @param int $whence Specifies how the cursor position will be calculated
      *     based on the seek offset. Valid values are identical to the built-in
@@ -43,7 +43,7 @@ interface SeekableStreamInterface extends ReadableStreamInterface
      * otherwise, it will perform a seek(0).
      *
      * @see seek()
-     * @link http://www.php.net/manual/en/function.fseek.php
+     * @see http://www.php.net/manual/en/function.fseek.php
      * @throws \RuntimeException on failure.
      */
     public function rewind(): void;
