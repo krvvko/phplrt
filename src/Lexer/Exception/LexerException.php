@@ -16,5 +16,4 @@ use Phplrt\Exception\ExternalException;
  */
 class LexerException extends ExternalException
 {
-
 }

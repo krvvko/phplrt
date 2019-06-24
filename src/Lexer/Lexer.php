@@ -9,17 +9,17 @@ declare(strict_types=1);
 
 namespace Phplrt\Lexer;
 
-use Psr\Log\LoggerInterface;
-use Phplrt\Lexer\Token\Token;
-use Psr\Log\LoggerAwareTrait;
 use Phplrt\Contracts\Io\Readable;
-use Phplrt\Lexer\Token\EndOfInput;
-use Phplrt\Lexer\Driver\DriverInterface;
 use Phplrt\Contracts\Lexer\LexerInterface;
-use Phplrt\Lexer\Exception\LexerException;
 use Phplrt\Contracts\Lexer\TokenInterface;
+use Phplrt\Lexer\Driver\DriverInterface;
 use Phplrt\Lexer\Driver\StatelessDriverInterface;
 use Phplrt\Lexer\Exception\InitializationException;
+use Phplrt\Lexer\Exception\LexerException;
+use Phplrt\Lexer\Token\EndOfInput;
+use Phplrt\Lexer\Token\Token;
+use Psr\Log\LoggerAwareTrait;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class Lexer
@@ -114,7 +114,7 @@ class Lexer implements LexerInterface
         $state = $this->getState($this->state);
 
         $content = $input->getContents();
-        $length = \strlen($content);
+        $length  = \strlen($content);
 
 
         while ($offset < $length) {

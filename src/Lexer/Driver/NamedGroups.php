@@ -9,8 +9,8 @@ declare(strict_types=1);
 
 namespace Phplrt\Lexer\Driver;
 
-use Phplrt\Lexer\Compiler\Preg;
 use Phplrt\Contracts\Io\Readable;
+use Phplrt\Lexer\Compiler\Preg;
 use Phplrt\Lexer\Exception\LexerException;
 use Phplrt\Lexer\Exception\RuntimeException;
 use Phplrt\Lexer\Exception\UnrecognizedTokenException;

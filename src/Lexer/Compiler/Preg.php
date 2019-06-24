@@ -11,7 +11,6 @@ namespace Phplrt\Lexer\Compiler;
 
 use Phplrt\Lexer\Exception\InitializationException;
 use Phplrt\Lexer\Exception\RegularExpressionException;
-use Phplrt\Lexer\Exception\RuntimeException;
 
 /**
  * Class Preg
@@ -149,7 +148,7 @@ class Preg implements CompilerInterface
     public function compile(\Closure $each, string $pattern = '%s'): string
     {
         $pattern = \sprintf($pattern, $this->compilePattern($each));
-        $flags = $this->compileFlags();
+        $flags   = $this->compileFlags();
 
         return self::DELIMITER . $pattern . self::DELIMITER . $flags;
     }
@@ -233,7 +232,7 @@ class Preg implements CompilerInterface
     public static function assertLastError(?array $error): void
     {
         if ($error !== null) {
-            $code = $error['type'] ?? 0;
+            $code    = $error['type'] ?? 0;
             $message = $error['message'] ?? \sprintf(self::ERROR_UNEXPECTED, $code);
 
             throw new InitializationException($message, $code);

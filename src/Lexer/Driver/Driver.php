@@ -59,8 +59,8 @@ abstract class Driver implements DriverInterface
     public function __construct(array $tokens, array $skip = [], array $jumps = [])
     {
         $this->tokens = $tokens;
-        $this->skip = $skip;
-        $this->jumps = $jumps;
+        $this->skip   = $skip;
+        $this->jumps  = $jumps;
     }
 
     /**
