@@ -9,12 +9,10 @@ declare(strict_types=1);
 
 namespace Phplrt\Lexer\Exception;
 
-use Phplrt\Exception\ExternalException;
-
 /**
- * Class LexerException
+ * Class RegularExpressionException
  */
-class LexerException extends ExternalException
+class RegularExpressionException extends InitializationException
 {
 
 }

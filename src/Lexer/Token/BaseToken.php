@@ -10,15 +10,12 @@ declare(strict_types=1);
 namespace Phplrt\Lexer\Token;
 
 use Phplrt\Contracts\Lexer\TokenInterface;
-use Phplrt\Lexer\Token\Common\Renderable;
 
 /**
  * Class BaseToken
  */
 abstract class BaseToken implements TokenInterface
 {
-    use Renderable;
-
     /**
      * @var int|null
      */
@@ -51,5 +48,13 @@ abstract class BaseToken implements TokenInterface
         }
 
         return $this->length;
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return Dumper::dump($this);
     }
 }

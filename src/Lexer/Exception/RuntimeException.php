@@ -10,8 +10,9 @@ declare(strict_types=1);
 namespace Phplrt\Lexer\Exception;
 
 /**
- * Class BadLexemeException
+ * Class RuntimeException
  */
-class BadLexemeException extends \LogicException
+class RuntimeException extends LexerException
 {
+
 }
