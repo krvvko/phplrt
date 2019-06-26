@@ -57,10 +57,8 @@ abstract class StatelessDriver extends Driver implements StatelessDriverInterfac
      * @param string|int $state
      * @return StatelessDriverInterface|$this
      */
-    public function jump(string $token, $state): StatelessDriverInterface
+    public function jump(string $token, string $state): StatelessDriverInterface
     {
-        \assert(\is_string($state) || \is_int($state));
-
         $this->reset();
         $this->jumps[$token] = $state;
 

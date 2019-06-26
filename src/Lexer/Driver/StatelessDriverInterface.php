@@ -36,8 +36,8 @@ interface StatelessDriverInterface extends DriverInterface
 
     /**
      * @param string $token
-     * @param string|int $state
+     * @param string $state
      * @return StatelessDriverInterface|$this
      */
-    public function jump(string $token, $state): self;
+    public function jump(string $token, string $state): self;
 }

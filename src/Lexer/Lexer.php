@@ -9,22 +9,22 @@ declare(strict_types=1);
 
 namespace Phplrt\Lexer;
 
-use Phplrt\Contracts\Io\Readable;
-use Phplrt\Contracts\Lexer\LexerInterface;
-use Phplrt\Contracts\Lexer\TokenInterface;
-use Phplrt\Lexer\Driver\DriverInterface;
-use Phplrt\Lexer\Driver\StatelessDriverInterface;
-use Phplrt\Lexer\Exception\InitializationException;
-use Phplrt\Lexer\Exception\LexerException;
-use Phplrt\Lexer\Token\EndOfInput;
+use Phplrt\Lexer\Driver\NamedGroups;
+use Psr\Log\LoggerInterface;
 use Phplrt\Lexer\Token\Token;
 use Psr\Log\LoggerAwareTrait;
-use Psr\Log\LoggerInterface;
+use Phplrt\Contracts\Io\Readable;
+use Phplrt\Lexer\Token\EndOfInput;
+use Phplrt\Lexer\Driver\DriverInterface;
+use Phplrt\Contracts\Lexer\TokenInterface;
+use Phplrt\Lexer\Exception\LexerException;
+use Phplrt\Lexer\Driver\StatelessDriverInterface;
+use Phplrt\Lexer\Exception\InitializationException;
 
 /**
  * Class Lexer
  */
-class Lexer implements LexerInterface
+class Lexer implements StatelessLexerInterface
 {
     use LoggerAwareTrait;
 
@@ -34,26 +34,29 @@ class Lexer implements LexerInterface
     public const DEFAULT_STATE = 'default';
 
     /**
+     * @var string
+     */
+    public const DEFAULT_DRIVER = NamedGroups::class;
+
+    /**
      * @var array|DriverInterface[]
      */
     private $drivers = [];
 
     /**
-     * @var string|null
+     * @var string
      */
-    private $state;
+    private $state = self::DEFAULT_STATE;
 
     /**
      * Lexer constructor.
      *
-     * @param iterable|DriverInterface[] $drivers
+     * @param DriverInterface|array $driver
      * @param LoggerInterface|null $logger
      */
-    public function __construct(iterable $drivers = [], LoggerInterface $logger = null)
+    public function __construct($driver, LoggerInterface $logger = null)
     {
-        foreach ($drivers as $name => $driver) {
-            $this->append($driver, $name);
-        }
+        $this->add(self::DEFAULT_STATE, $this->bootDriver($driver));
 
         if ($logger !== null) {
             $this->setLogger($logger);
@@ -61,45 +64,26 @@ class Lexer implements LexerInterface
     }
 
     /**
-     * @param DriverInterface $driver
-     * @param string|int|null $name
-     * @return DriverInterface|StatelessDriverInterface
+     * @param array|DriverInterface $driver
+     * @return DriverInterface
      */
-    public function append(DriverInterface $driver, $name = null): DriverInterface
+    private function bootDriver($driver): DriverInterface
     {
-        \assert(\is_int($name) || \is_string($name) || $name === null);
-
-        if (\count($this->drivers) === 0) {
-            $name = static::DEFAULT_STATE;
-        }
-
-        if ($name === null) {
-            return $this->drivers[] = $driver;
-        }
-
-        return $this->drivers[$name] = $driver;
-    }
-
-    /**
-     * @param DriverInterface $driver
-     * @param string|int|null $name
-     * @return DriverInterface|StatelessDriverInterface
-     */
-    public function prepend(DriverInterface $driver, $name = null): DriverInterface
-    {
-        \assert(\is_int($name) || \is_string($name) || $name === null);
-
-        if (\count($this->drivers) === 0) {
-            $name = static::DEFAULT_STATE;
-        }
-
-        if ($name === null) {
-            \array_unshift($this->drivers, $driver);
-        } else {
-            $this->drivers = \array_merge([$name => $driver], $this->drivers);
+        if (\is_array($driver)) {
+            return new NamedGroups($driver);
         }
 
         return $driver;
+    }
+
+    /**
+     * @param string $name
+     * @param DriverInterface $driver
+     * @return DriverInterface
+     */
+    public function add(string $name, DriverInterface $driver): DriverInterface
+    {
+        return $this->drivers[$name] = $driver;
     }
 
     /**
@@ -111,10 +95,10 @@ class Lexer implements LexerInterface
     {
         [$start, $offset] = [\microtime(true), 0];
 
-        $state = $this->getState($this->state);
+        $state = $this->state($this->state);
 
         $content = $input->getContents();
-        $length  = \strlen($content);
+        $length = \strlen($content);
 
 
         while ($offset < $length) {
@@ -134,7 +118,7 @@ class Lexer implements LexerInterface
                     ], $start);
                 }
 
-                yield $token = new Token($name, $value, $offset);
+                yield $offset => $token = new Token($name, $value, $offset);
             }
 
             if (isset($token)) {
@@ -151,7 +135,7 @@ class Lexer implements LexerInterface
                         ], $start);
                     }
 
-                    $state = $this->getState($next);
+                    $state = $this->state($next);
                 }
             }
         }
@@ -162,7 +146,7 @@ class Lexer implements LexerInterface
             $this->debug('Completed at offset %d', [$offset], $start);
         }
 
-        yield new EndOfInput($offset);
+        yield $offset => new EndOfInput($offset);
     }
 
     /**
@@ -170,7 +154,7 @@ class Lexer implements LexerInterface
      * @return string
      * @throws InitializationException
      */
-    private function getState(?string $state): string
+    private function state(?string $state): string
     {
         if ($state === null) {
             /** @noinspection LoopWhichDoesNotLoopInspection */
