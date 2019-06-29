@@ -9,8 +9,8 @@ declare(strict_types=1);
 
 namespace Phplrt\Lexer;
 
-use Phplrt\Lexer\Driver\DriverInterface;
 use Phplrt\Contracts\Lexer\LexerInterface;
+use Phplrt\Lexer\Driver\DriverInterface;
 
 /**
  * Interface StatelessLexerInterface
