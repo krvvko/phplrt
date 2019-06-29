@@ -110,12 +110,7 @@ class Lexer implements StatelessLexerInterface
 
             foreach ($driver->lex($input, $content, $offset) as [$name, $value, $offset]) {
                 if ($this->logger) {
-                    $this->debug('Token %s:%s ("%s") at offset %d', [
-                        $state,
-                        $name,
-                        $value,
-                        $offset,
-                    ], $start);
+                    $this->debug('Token %s:%s ("%s") at offset %d', [$state, $name, $value, $offset], $start);
                 }
 
                 yield $offset => $token = new Token($name, $value, $offset);
@@ -128,11 +123,7 @@ class Lexer implements StatelessLexerInterface
 
                 if ($next) {
                     if ($this->logger) {
-                        $this->debug('Change state "%s" => "%s" at offset %d', [
-                            $state,
-                            $next,
-                            $offset,
-                        ], $start);
+                        $this->debug('Change state "%s" => "%s"', [$state, $next, $offset], $start);
                     }
 
                     $state = $this->state($next);
