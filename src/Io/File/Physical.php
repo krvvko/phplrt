@@ -9,11 +9,8 @@ declare(strict_types=1);
 
 namespace Phplrt\Io\File;
 
-use Phplrt\Contracts\Stream\SeekableStreamInterface;
-use Phplrt\Contracts\Stream\WritableStreamInterface;
 use Phplrt\Io\Exception\NotFoundException;
 use Phplrt\Io\Exception\NotReadableException;
-use Phplrt\Stream\Factory;
 
 /**
  * Class Physical
@@ -35,7 +32,6 @@ class Physical extends AbstractFile
     public function __construct(string $pathname)
     {
         $this->assertExists($pathname);
-        $this->assertReadable($pathname);
 
         parent::__construct(\realpath($pathname));
     }
@@ -81,32 +77,21 @@ class Physical extends AbstractFile
      */
     public function getContents(): string
     {
-        return $this->getStream()->getContents();
+        $this->assertReadable($this->getPathname());
+
+        return \file_get_contents($this->getPathname());
     }
 
     /**
-     * @param array $options
-     * @return SeekableStreamInterface|WritableStreamInterface
-     */
-    public function getStream(array $options = []): SeekableStreamInterface
-    {
-        return Factory::fromPathname($this->getPathname(), $options);
-    }
-
-    /**
-     * @param bool $exclusive
      * @return resource
-     * @throws \ErrorException
      */
-    public function getStreamContents(bool $exclusive = false)
+    public function getStream()
     {
-        $stream = Factory::fromPathname($this->getPathname());
+        $fp = \fopen($this->getPathname(), 'rb+');
 
-        if ($exclusive) {
-            $stream->lock(\LOCK_SH);
-        }
+        \flock($fp, \LOCK_SH);
 
-        return $stream->getResource();
+        return $fp;
     }
 
     /**

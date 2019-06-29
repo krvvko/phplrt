@@ -31,7 +31,6 @@
     "require": {
         "php": ">=7.1.3",
         "phplrt/position-contracts": "2.0.*|2.0.x-dev",
-        "phplrt/stream-contracts": "2.0.*|2.0.x-dev",
         "phplrt/exception-contracts": "2.0.*|2.0.x-dev"
     },
     "autoload": {

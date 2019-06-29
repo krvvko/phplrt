@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace Phplrt\Contracts\Io;
 
+use Psr\Http\Message\StreamInterface;
+
 /**
  * Interface FactoryInterface
  */
@@ -47,4 +49,18 @@ interface FactoryInterface
      * @return Readable
      */
     public static function empty(string $name = null): Readable;
+
+    /**
+     * @param StreamInterface $stream
+     * @param string|null $name
+     * @return Readable
+     */
+    public static function fromPsrStream(StreamInterface $stream, string $name = null): Readable;
+
+    /**
+     * @param resource $resource
+     * @param string|null $name
+     * @return Readable
+     */
+    public static function fromResource($resource, string $name = null): Readable;
 }

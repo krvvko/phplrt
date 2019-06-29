@@ -55,12 +55,6 @@
                 "../src/Position": "."
             }
         },
-        "phplrt/stream": {
-            "remote": "git@github.com:phplrt/stream.git",
-            "dirs": {
-                "../src/Stream": "."
-            }
-        },
 
         "phplrt/ast-contracts": {
             "remote": "git@github.com:phplrt/ast-contracts.git",
@@ -102,12 +96,6 @@
             "remote": "git@github.com:phplrt/position-contracts.git",
             "dirs": {
                 "../src/Contracts/Position": "."
-            }
-        },
-        "phplrt/stream-contracts": {
-            "remote": "git@github.com:phplrt/stream-contracts.git",
-            "dirs": {
-                "../src/Contracts/Stream": "."
             }
         }
     }

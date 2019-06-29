@@ -9,12 +9,17 @@ declare(strict_types=1);
 
 namespace Phplrt\Io;
 
-use Phplrt\Contracts\Io\Readable;
-use Phplrt\Io\File\Physical;
 use Phplrt\Io\File\Virtual;
+use Phplrt\Io\File\Physical;
+use Phplrt\Contracts\Io\Readable;
+use Psr\Http\Message\StreamInterface;
+use Phplrt\Contracts\Io\FactoryInterface;
+use Phplrt\Io\Exception\NotReadableException;
 
 /**
  * Trait FactoryTrait
+ *
+ * @mixin FactoryInterface
  */
 trait FactoryTrait
 {
@@ -48,5 +53,44 @@ trait FactoryTrait
     public static function empty(string $name = null): Readable
     {
         return new Virtual('', $name);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public static function fromPsrStream(StreamInterface $stream, string $name = null): Readable
+    {
+        if ($stream->isSeekable()) {
+            $stream->rewind();
+        }
+
+        return new Virtual($stream->getContents(), $name);
+    }
+
+    /**
+     * @param resource $resource
+     * @param string|null $name
+     * @return Readable
+     */
+    public static function fromResource($resource, string $name = null): Readable
+    {
+        if (self::isClosedResource($resource)) {
+            throw new NotReadableException('Can not open for reading already closed resource');
+        }
+
+        return new Virtual(\stream_get_contents($resource), $name);
+    }
+
+    /**
+     * @param resource $resource
+     * @return bool
+     */
+    private static function isClosedResource($resource): bool
+    {
+        if (\version_compare(\PHP_VERSION, '7.2') >= 1) {
+            return \gettype($resource) === 'resource (closed)';
+        }
+
+        return \gettype($resource) === 'unknown type';
     }
 }

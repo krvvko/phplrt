@@ -14,7 +14,7 @@ use Phplrt\Contracts\Position\PositionProviderInterface;
 /**
  * Interface Readable
  */
-interface Readable extends PositionProviderInterface, ContentProviderInterface
+interface Readable extends PositionProviderInterface
 {
     /**
      * Returns the path to the file.
@@ -22,6 +22,18 @@ interface Readable extends PositionProviderInterface, ContentProviderInterface
      * @return string
      */
     public function getPathname(): string;
+
+    /**
+     * Returns the full contents of the source.
+     *
+     * @return string
+     */
+    public function getContents(): string;
+
+    /**
+     * @return resource
+     */
+    public function getStream();
 
     /**
      * Returns the hash of the file.
