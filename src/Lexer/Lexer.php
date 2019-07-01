@@ -9,182 +9,74 @@ declare(strict_types=1);
 
 namespace Phplrt\Lexer;
 
+use Phplrt\Lexer\State\Factory;
+use Phplrt\Lexer\State\State;
 use Phplrt\Contracts\Io\Readable;
-use Phplrt\Contracts\Lexer\TokenInterface;
-use Phplrt\Lexer\Driver\DriverInterface;
-use Phplrt\Lexer\Driver\NamedGroups;
+use Phplrt\Lexer\State\StateInterface;
+use Phplrt\Contracts\Lexer\LexerInterface;
+use Phplrt\Lexer\Exception\RuntimeException;
 use Phplrt\Lexer\Exception\InitializationException;
-use Phplrt\Lexer\Exception\LexerException;
-use Phplrt\Lexer\Token\EndOfInput;
-use Phplrt\Lexer\Token\Token;
-use Psr\Log\LoggerAwareTrait;
-use Psr\Log\LoggerInterface;
 
 /**
  * Class Lexer
  */
-class Lexer implements StatelessLexerInterface
+class Lexer implements LexerInterface
 {
-    use LoggerAwareTrait;
+    /**
+     * @var array|\Phplrt\Lexer\State\StateInterface[]
+     */
+    private $states;
 
     /**
      * @var string
      */
-    public const DEFAULT_STATE = 'default';
-
-    /**
-     * @var string
-     */
-    public const DEFAULT_DRIVER = NamedGroups::class;
-
-    /**
-     * @var array|DriverInterface[]
-     */
-    private $drivers = [];
-
-    /**
-     * @var string
-     */
-    private $state = self::DEFAULT_STATE;
+    private $state = 'default';
 
     /**
      * Lexer constructor.
      *
-     * @param DriverInterface|array $driver
-     * @param LoggerInterface|null $logger
+     * @param StateInterface|StateInterface[] $states
      */
-    public function __construct($driver, LoggerInterface $logger = null)
+    public function __construct($states)
     {
-        $this->add(self::DEFAULT_STATE, $this->bootDriver($driver));
+        \assert(\is_array($states) || $states instanceof StateInterface);
 
-        if ($logger !== null) {
-            $this->setLogger($logger);
+        foreach (Factory::create($states) as $name => $state) {
+            $this->states[\is_int($name) ? $this->state : $name] = $state;
         }
     }
 
     /**
-     * @param array|DriverInterface $driver
-     * @return DriverInterface
-     */
-    private function bootDriver($driver): DriverInterface
-    {
-        if (\is_array($driver)) {
-            return new NamedGroups($driver);
-        }
-
-        return $driver;
-    }
-
-    /**
-     * @param string $name
-     * @param DriverInterface $driver
-     * @return DriverInterface
-     */
-    public function add(string $name, DriverInterface $driver): DriverInterface
-    {
-        return $this->drivers[$name] = $driver;
-    }
-
-    /**
-     * @param Readable $input
-     * @return \Traversable|TokenInterface[]
-     * @throws LexerException
+     * @param \Phplrt\Contracts\Io\Readable $input
+     * @return \Traversable|\Phplrt\Contracts\Lexer\TokenInterface[]
+     * @throws \Phplrt\Lexer\Exception\InitializationException
+     * @throws \Phplrt\Lexer\Exception\RuntimeException
      */
     public function lex(Readable $input): \Traversable
     {
-        [$start, $offset] = [\microtime(true), 0];
+        [$offset, $content, $state] = [0, $input->getContents(), $this->state];
 
-        $state = $this->state($this->state);
-
-        $content = $input->getContents();
-        $length  = \strlen($content);
-
-
-        while ($offset < $length) {
-            $driver = $this->drivers[$state];
-
-            if ($this->logger) {
-                $this->debug('Use state driver %s at offset %d', [\get_class($driver), $offset], $start);
-            }
-
-            foreach ($driver->lex($input, $content, $offset) as [$name, $value, $offset]) {
-                if ($this->logger) {
-                    $this->debug('Token %s:%s ("%s") at offset %d', [$state, $name, $value, $offset], $start);
-                }
-
-                yield $offset => $token = new Token($name, $value, $offset);
-            }
-
-            if (isset($token)) {
-                $offset += $token->getBytes();
-
-                $next = $driver->then($token->getName());
-
-                if ($next) {
-                    if ($this->logger) {
-                        $this->debug('Change state "%s" => "%s"', [$state, $next, $offset], $start);
-                    }
-
-                    $state = $this->state($next);
-                }
-            }
-        }
-
-        $offset += isset($token) ? $token->getBytes() : 0;
-
-        if ($this->logger) {
-            $this->debug('Completed at offset %d', [$offset], $start);
-        }
-
-        yield $offset => new EndOfInput($offset);
+        yield from $last = $this
+            ->current($state)
+            ->exec($input, $content, $offset);
     }
 
     /**
      * @param string|null $state
-     * @return string
-     * @throws InitializationException
+     * @return \Phplrt\Lexer\State\StateInterface
+     * @throws \Phplrt\Lexer\Exception\InitializationException
+     * @throws \Phplrt\Lexer\Exception\RuntimeException
      */
-    private function state(?string $state): string
+    private function current(string $state): StateInterface
     {
-        if ($state === null) {
-            /** @noinspection LoopWhichDoesNotLoopInspection */
-            foreach ($this->drivers as $name => $driver) {
-                return $name;
-            }
-
-            throw new InitializationException('Unable to run lexical analysis because lexer is not initialized', 1);
+        if (\count($this->states) === 0) {
+            throw new InitializationException('No tokens were defined');
         }
 
-        if (isset($this->drivers[$state])) {
-            return $state;
+        if (! isset($this->states[$state])) {
+            throw new RuntimeException('Unrecognized state "' . $state . '"');
         }
 
-        throw new InitializationException(\sprintf('Unrecognized state "%s"', $state), 2);
-    }
-
-    /**
-     * @param string $message
-     * @param string|int|float|bool ...$args
-     * @param float $time
-     * @return void
-     */
-    private function debug(string $message, array $args, float $time): void
-    {
-        if ($this->logger !== null) {
-            $message = \sprintf('Lexer<%s#%s>: %s', \get_class($this), $this->getId(), \vsprintf($message, $args));
-
-            $this->logger->debug($message, [
-                'time'   => \number_format(\microtime(true) - $time, 3) . 'µs',
-                'memory' => \number_format(\memory_get_usage(false) / 1000 / 1000, 2) . 'Mb',
-            ]);
-        }
-    }
-
-    /**
-     * @return int|string
-     */
-    private function getId()
-    {
-        return \function_exists('\spl_object_id') ? \spl_object_id($this) : \spl_object_hash($this);
+        return $this->states[$state];
     }
 }

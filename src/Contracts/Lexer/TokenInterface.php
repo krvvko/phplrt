@@ -31,17 +31,9 @@ interface TokenInterface
     /**
      * Returns the value of the captured subgroup.
      *
-     * @param int $group Number of subgroup
-     * @return string|null If the group is not found, the null will return.
+     * @return string
      */
-    public function getValue(int $group = 0): ?string;
-
-    /**
-     * Returns the list of the captured subgroups.
-     *
-     * @return iterable
-     */
-    public function getGroups(): iterable;
+    public function getValue(): string;
 
     /**
      * The token value size in bytes.

@@ -9,24 +9,19 @@ declare(strict_types=1);
 
 namespace Phplrt\Lexer\Driver;
 
-use Phplrt\Contracts\Io\Readable;
+use Phplrt\Lexer\State\RuntimeInterface;
 
 /**
- * Interface StateInterface
+ * Interface DriverInterface
  */
-interface DriverInterface
+interface DriverInterface extends RuntimeInterface
 {
     /**
-     * @param Readable $file
-     * @param string $content
-     * @param int $offset
-     * @return iterable
+     * DriverInterface constructor.
+     *
+     * @param array|string[] $tokens
+     * @param array|string[] $breaks
+     * @param array|string[] $flags
      */
-    public function lex(Readable $file, string $content, int $offset = 0): iterable;
-
-    /**
-     * @param string $token
-     * @return string|int|null
-     */
-    public function then(string $token);
+    public function __construct(array $tokens, array $breaks = [], array $flags = []);
 }

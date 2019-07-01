@@ -9,110 +9,93 @@ declare(strict_types=1);
 
 namespace Phplrt\Lexer\Driver;
 
+use Phplrt\Lexer\Exception\LexerException;
+use Phplrt\Lexer\Exception\RuntimeException;
+
 /**
  * Class Driver
  */
 abstract class Driver implements DriverInterface
 {
     /**
-     * @var int
-     */
-    public const TOKEN_NAME = 0x00;
-
-    /**
-     * @var int
-     */
-    public const TOKEN_VALUE = 0x01;
-
-    /**
-     * @var int
-     */
-    public const TOKEN_OFFSET = 0x02;
-
-    /**
-     * @var array|string[]
-     */
-    protected $tokens;
-
-    /**
-     * @var array|string[]
-     */
-    protected $skip;
-
-    /**
-     * @var array|int[]|string[]
-     */
-    protected $jumps;
-
-    /**
      * @var string
      */
-    private $unknown;
+    protected $pattern;
 
     /**
-     * Driver constructor.
+     * @var array|string[]
+     */
+    private $breaks;
+
+    /**
+     * NamedGroups constructor.
      *
+     * @param array|string[] $tokens
+     * @param array|string[] $breaks
+     * @param array|string[] $flags
+     */
+    public function __construct(array $tokens, array $breaks = [], array $flags = [])
+    {
+        $this->breaks = $breaks;
+        $this->pattern = $this->buildPattern($tokens, $flags);
+    }
+
+    /**
      * @param array $tokens
-     * @param array $skip
-     * @param array $jumps
+     * @param array $flags
+     * @return string
      */
-    public function __construct(array $tokens, array $skip = [], array $jumps = [])
+    private function buildPattern(array $tokens, array $flags = []): string
     {
-        $this->tokens = $tokens;
-        $this->skip   = $skip;
-        $this->jumps  = $jumps;
+        $pcre = new Preg($tokens, $flags);
+
+        $callback = \Closure::fromCallable([$this, 'token']);
+
+        return $pcre->compile($callback, $this->pattern());
     }
 
     /**
-     * @return array|string[]
-     * @throws \Exception
+     * @return string
      */
-    protected function getTokens(): array
-    {
-        return \array_merge($this->tokens, [
-            $this->unknown = \uniqid('_', false) => '.+',
-        ]);
-    }
+    abstract protected function pattern(): string;
 
     /**
-     * @param string $token
-     * @return int|string|null
+     * @param \Closure $expr
+     * @return mixed
+     * @throws \Phplrt\Lexer\Exception\LexerException
+     * @throws \Phplrt\Lexer\Exception\RuntimeException
      */
-    public function then(string $token)
+    protected function wrap(\Closure $expr)
     {
-        return $this->jumps[$token] ?? null;
+        try {
+            \error_clear_last();
+
+            $result = $expr();
+
+            Preg::assertCode(\preg_last_error());
+            Preg::assertLastError(\error_get_last());
+        } catch (LexerException $e) {
+            throw $e;
+        } catch (\Exception $e) {
+            throw new RuntimeException($e->getMessage(), $e->getCode(), $e);
+        }
+
+        return $result;
     }
 
     /**
      * @param string $token
      * @return bool
      */
-    protected function shouldBreak(string $token): bool
+    protected function breaks(string $token): bool
     {
-        return isset($this->jumps[$token]);
+        return \in_array($token, $this->breaks, true);
     }
 
     /**
      * @param string $name
-     * @return bool
+     * @param string $pattern
+     * @return string
      */
-    protected function isUnknown(string $name): bool
-    {
-        return $name === $this->unknown;
-    }
-
-    /**
-     * @param string $name
-     * @param string $value
-     * @param int $offset
-     * @return array
-     */
-    protected function token(string $name, string $value, int $offset): array
-    {
-        return [
-            static::TOKEN_NAME   => $name,
-            static::TOKEN_VALUE  => $value,
-            static::TOKEN_OFFSET => $offset,
-        ];
-    }
+    abstract protected function token(string $name, string $pattern): string;
 }

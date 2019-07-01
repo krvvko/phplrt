@@ -7,7 +7,7 @@
  */
 declare(strict_types=1);
 
-namespace Phplrt\Lexer\Compiler;
+namespace Phplrt\Lexer\Driver;
 
 use Phplrt\Lexer\Exception\InitializationException;
 use Phplrt\Lexer\Exception\RegularExpressionException;
@@ -15,7 +15,7 @@ use Phplrt\Lexer\Exception\RegularExpressionException;
 /**
  * Class Preg
  */
-class Preg implements CompilerInterface
+class Preg
 {
     /**
      * @var string
@@ -73,6 +73,11 @@ class Preg implements CompilerInterface
     public const FLAG_MULTILINE = 'm';
 
     /**
+     * @var string
+     */
+    public const FLAG_ANALYZED = 'S';
+
+    /**
      * Regex delimiter
      *
      * @var string
@@ -85,11 +90,6 @@ class Preg implements CompilerInterface
      * @var string
      */
     private const CHUNK_DELIMITER = '|';
-
-    /**
-     * @var string
-     */
-    private const FLAG_ANALYZED = 'S';
 
     /**
      * @var array
@@ -108,17 +108,19 @@ class Preg implements CompilerInterface
      * Preg constructor.
      *
      * @param array $tokens
+     * @param string[] $flags
      */
-    public function __construct(array $tokens)
+    public function __construct(array $tokens, array $flags)
     {
         $this->tokens = $tokens;
+        $this->withFlag(...$flags);
     }
 
     /**
      * @param string ...$flags
-     * @return CompilerInterface|$this
+     * @return self|$this
      */
-    public function withFlag(string ...$flags): CompilerInterface
+    public function withFlag(string ...$flags): self
     {
         $this->flags = \array_merge($this->flags, $flags);
 
@@ -127,9 +129,9 @@ class Preg implements CompilerInterface
 
     /**
      * @param string ...$flags
-     * @return CompilerInterface|$this
+     * @return self|$this
      */
-    public function withoutFlag(string ...$flags): CompilerInterface
+    public function withoutFlag(string ...$flags): self
     {
         $filter = static function (string $flag) use ($flags) {
             return ! \in_array($flag, $flags, true);
@@ -148,7 +150,7 @@ class Preg implements CompilerInterface
     public function compile(\Closure $each, string $pattern = '%s'): string
     {
         $pattern = \sprintf($pattern, $this->compilePattern($each));
-        $flags   = $this->compileFlags();
+        $flags = $this->compileFlags();
 
         return self::DELIMITER . $pattern . self::DELIMITER . $flags;
     }
@@ -197,6 +199,7 @@ class Preg implements CompilerInterface
     /**
      * @return bool
      * @throws RegularExpressionException
+     * @throws \Phplrt\Lexer\Exception\InitializationException
      */
     public static function assertFromGlobals(): bool
     {
@@ -207,7 +210,7 @@ class Preg implements CompilerInterface
      * Checks the result for correctness.
      *
      * <code>
-     *  Validator::assert(\ERROR_last(), \error_get_last());
+     *  Preg::assert(\preg_last_error(), \error_get_last());
      * </code>
      *
      * @param int $code PCRE error code
@@ -222,21 +225,6 @@ class Preg implements CompilerInterface
         static::assertLastError($last);
 
         return true;
-    }
-
-    /**
-     * @param array|null $error
-     * @return void
-     * @throws InitializationException
-     */
-    public static function assertLastError(?array $error): void
-    {
-        if ($error !== null) {
-            $code    = $error['type'] ?? 0;
-            $message = $error['message'] ?? \sprintf(self::ERROR_UNEXPECTED, $code);
-
-            throw new InitializationException($message, $code);
-        }
     }
 
     /**
@@ -275,5 +263,20 @@ class Preg implements CompilerInterface
         }
 
         return \sprintf(self::ERROR_UNEXPECTED, $code);
+    }
+
+    /**
+     * @param array|null $error
+     * @return void
+     * @throws InitializationException
+     */
+    public static function assertLastError(?array $error): void
+    {
+        if ($error !== null) {
+            $code = $error['type'] ?? 0;
+            $message = $error['message'] ?? \sprintf(self::ERROR_UNEXPECTED, $code);
+
+            throw new InitializationException($message, $code);
+        }
     }
 }

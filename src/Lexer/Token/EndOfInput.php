@@ -51,20 +51,11 @@ final class EndOfInput extends BaseToken
     }
 
     /**
-     * @param int|null $offset
      * @return string
      */
-    public function getValue(int $offset = null): string
+    public function getValue(): string
     {
         return "\0";
-    }
-
-    /**
-     * @return iterable|string[]
-     */
-    public function getGroups(): iterable
-    {
-        return [$this->getValue()];
     }
 
     /**

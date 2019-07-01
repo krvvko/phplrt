@@ -27,15 +27,25 @@ abstract class BaseToken implements TokenInterface
     private $bytes;
 
     /**
-     * @return int
+     * @return string
      */
-    public function getBytes(): int
+    public function __toString(): string
     {
-        if ($this->bytes === null) {
-            $this->bytes = \strlen($this->getValue());
-        }
+        return Dumper::dump($this);
+    }
 
-        return $this->bytes;
+    /**
+     * @return array
+     */
+    public function __debugInfo(): array
+    {
+        return [
+            'name'   => $this->getName(),
+            'value'  => $this->getValue(),
+            'offset' => $this->getOffset(),
+            'length' => $this->getLength(),
+            'bytes'  => $this->getBytes(),
+        ];
     }
 
     /**
@@ -51,10 +61,14 @@ abstract class BaseToken implements TokenInterface
     }
 
     /**
-     * @return string
+     * @return int
      */
-    public function __toString(): string
+    public function getBytes(): int
     {
-        return Dumper::dump($this);
+        if ($this->bytes === null) {
+            $this->bytes = \strlen($this->getValue());
+        }
+
+        return $this->bytes;
     }
 }

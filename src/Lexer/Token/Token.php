@@ -20,7 +20,7 @@ class Token extends BaseToken
     private $name;
 
     /**
-     * @var array
+     * @var string
      */
     private $value;
 
@@ -33,13 +33,13 @@ class Token extends BaseToken
      * Token constructor.
      *
      * @param string $name
-     * @param string|array $value
+     * @param string $value
      * @param int $offset
      */
-    public function __construct(string $name, $value, int $offset = 0)
+    public function __construct(string $name, string $value, int $offset = 0)
     {
         $this->name   = $name;
-        $this->value  = (array)$value;
+        $this->value  = $value;
         $this->offset = $offset;
     }
 
@@ -52,18 +52,9 @@ class Token extends BaseToken
     }
 
     /**
-     * @param int|null $offset
-     * @return string|null
+     * @return string
      */
-    public function getValue(int $offset = 0): ?string
-    {
-        return $this->value[$offset] ?? null;
-    }
-
-    /**
-     * @return iterable|string[]
-     */
-    public function getGroups(): iterable
+    public function getValue(): string
     {
         return $this->value;
     }
