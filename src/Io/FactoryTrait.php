@@ -9,12 +9,12 @@ declare(strict_types=1);
 
 namespace Phplrt\Io;
 
-use Phplrt\Io\File\Virtual;
-use Phplrt\Io\File\Physical;
-use Phplrt\Contracts\Io\Readable;
-use Psr\Http\Message\StreamInterface;
 use Phplrt\Contracts\Io\FactoryInterface;
+use Phplrt\Contracts\Io\Readable;
 use Phplrt\Io\Exception\NotReadableException;
+use Phplrt\Io\File\Physical;
+use Phplrt\Io\File\Virtual;
+use Psr\Http\Message\StreamInterface;
 
 /**
  * Trait FactoryTrait
