@@ -10,7 +10,6 @@ declare(strict_types=1);
 namespace Phplrt\Lexer\Driver;
 
 use Phplrt\Contracts\Io\Readable;
-use Phplrt\Lexer\Exception\LexerException;
 use Phplrt\Lexer\Exception\RuntimeException;
 
 /**
@@ -47,7 +46,7 @@ class NamedGroups extends Driver
     {
         $content = $offset !== 0 ? (string)\substr($content, $offset) : $content;
 
-        return (array)$this->wrap(function() use ($content, $offset) {
+        return (array)$this->wrap(function () use ($content, $offset) {
             $output = [];
 
             $callback = $this->callback($offset, $output);

@@ -36,7 +36,7 @@ abstract class Driver implements DriverInterface
      */
     public function __construct(array $tokens, array $breaks = [], array $flags = [])
     {
-        $this->breaks = $breaks;
+        $this->breaks  = $breaks;
         $this->pattern = $this->buildPattern($tokens, $flags);
     }
 
