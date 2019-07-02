@@ -10,6 +10,8 @@ declare(strict_types=1);
 namespace Phplrt\Lexer;
 
 use Phplrt\Lexer\State\Factory;
+use Phplrt\Lexer\State\Grammar;
+use Phplrt\Lexer\State\GrammarInterface;
 use Phplrt\Lexer\State\State;
 use Phplrt\Contracts\Io\Readable;
 use Phplrt\Lexer\State\StateInterface;
@@ -20,12 +22,17 @@ use Phplrt\Lexer\Exception\InitializationException;
 /**
  * Class Lexer
  */
-class Lexer implements LexerInterface
+class Lexer implements LexerInterface, Stateless
 {
     /**
      * @var array|\Phplrt\Lexer\State\StateInterface[]
      */
     private $states;
+
+    /**
+     * @var \Phplrt\Lexer\State\GrammarInterface
+     */
+    private $global;
 
     /**
      * @var string
@@ -35,15 +42,30 @@ class Lexer implements LexerInterface
     /**
      * Lexer constructor.
      *
-     * @param StateInterface|StateInterface[] $states
+     * @param array $tokens
+     * @param array $skip
      */
-    public function __construct($states)
+    public function __construct(array $tokens = [], array $skip = [])
     {
-        \assert(\is_array($states) || $states instanceof StateInterface);
+        $this->global = new Grammar($tokens, $skip);
+    }
 
-        foreach (Factory::create($states) as $name => $state) {
-            $this->states[\is_int($name) ? $this->state : $name] = $state;
-        }
+    /**
+     * @return \Phplrt\Lexer\State\GrammarInterface
+     */
+    public function global(): GrammarInterface
+    {
+        return $this->global;
+    }
+
+    /**
+     * @param string $name
+     * @return \Phplrt\Lexer\State\StateInterface
+     * @throws \Phplrt\Lexer\Exception\InitializationException
+     */
+    public function state(string $name = self::DEFAULT_STATE): StateInterface
+    {
+        return $this->states[$name] ?? $this->states[$name] = new State($this->global);
     }
 
     /**
@@ -56,9 +78,11 @@ class Lexer implements LexerInterface
     {
         [$offset, $content, $state] = [0, $input->getContents(), $this->state];
 
-        yield from $last = $this
-            ->current($state)
-            ->exec($input, $content, $offset);
+        $runtime = \count($this->states) === 0
+            ? new State($this->global)
+            : $this->current($state);
+
+        yield from $last = $runtime->exec($input, $content, $offset);
     }
 
     /**

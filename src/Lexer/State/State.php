@@ -19,7 +19,7 @@ use Phplrt\Lexer\Exception\UnrecognizedTokenException;
 /**
  * Class State
  */
-class State implements StateInterface
+class State extends Grammar implements StateInterface
 {
     /**
      * @var string
@@ -29,22 +29,7 @@ class State implements StateInterface
     /**
      * @var string
      */
-    private $driver;
-
-    /**
-     * @var array|string[]
-     */
-    private $tokens = [];
-
-    /**
-     * @var array|string[]
-     */
-    private $jumps = [];
-
-    /**
-     * @var array|string[]
-     */
-    private $skip = [];
+    private $driver = self::DEFAULT_DRIVER;
 
     /**
      * @var string
@@ -52,43 +37,22 @@ class State implements StateInterface
     private $unknown;
 
     /**
+     * @var \Phplrt\Lexer\State\GrammarInterface
+     */
+    private $parent;
+
+    /**
      * State constructor.
      *
-     * @param array $tokens
-     * @param array $skip
-     * @param string $driver
-     * @throws InitializationException
+     * @param \Phplrt\Lexer\State\GrammarInterface $parent
+     * @throws \Phplrt\Lexer\Exception\InitializationException
      */
-    public function __construct(array $tokens = [], array $skip = [], string $driver = self::DEFAULT_DRIVER)
+    public function __construct(GrammarInterface $parent)
     {
-        $this->addMany($tokens);
-        $this->skip(...\array_values($skip));
-
-        $this->driver = $driver;
-
+        $this->parent = $parent;
         $this->generateUnknownToken();
-    }
 
-    /**
-     * @param array|string[] $tokens
-     * @return \Phplrt\Lexer\State\StateInterface|$this
-     */
-    public function addMany(array $tokens): StateInterface
-    {
-        $this->tokens = \array_merge($this->tokens, $tokens);
-
-        return $this;
-    }
-
-    /**
-     * @param string ...$tokens
-     * @return \Phplrt\Lexer\State\StateInterface|$this
-     */
-    public function skip(string ...$tokens): StateInterface
-    {
-        $this->skip = \array_merge($this->skip, $tokens);
-
-        return $this;
+        parent::__construct();
     }
 
     /**
@@ -116,46 +80,6 @@ class State implements StateInterface
     }
 
     /**
-     * @param string $name
-     * @param string $pattern
-     * @param string|null $state
-     * @return \Phplrt\Lexer\State\StateInterface|$this
-     */
-    public function add(string $name, string $pattern, string $state = null): StateInterface
-    {
-        $this->tokens[$name] = $pattern;
-
-        if ($state !== null) {
-            $this->jump($name, $state);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @param string $token
-     * @param string $next
-     * @return \Phplrt\Lexer\State\StateInterface|$this
-     */
-    public function jump(string $token, string $next): StateInterface
-    {
-        $this->jumps[$token] = $next;
-
-        return $this;
-    }
-
-    /**
-     * @param array $jumps
-     * @return \Phplrt\Lexer\State\StateInterface|$this
-     */
-    public function jumpMany(array $jumps): StateInterface
-    {
-        $this->jumps = \array_merge($this->jumps, $jumps);
-
-        return $this;
-    }
-
-    /**
      * @param \Phplrt\Contracts\Io\Readable $file
      * @param string $content
      * @param int $offset
@@ -166,8 +90,11 @@ class State implements StateInterface
     {
         $driver = $this->create();
 
+        $skips = \array_merge($this->parent->skips(), $this->skip);
+        $jumps = \array_merge($this->parent->jumps(), $this->jumps);
+
         foreach ($driver->exec($file, $content, $offset) as [$name, $value, $at]) {
-            if (\in_array($name, $this->skip, true)) {
+            if (\in_array($name, $skips, true)) {
                 continue;
             }
 
@@ -181,20 +108,25 @@ class State implements StateInterface
             yield new Token($name, $value, $at);
         }
 
-        return isset($name, $this->jumps[$name]) ? $this->jumps[$name] : null;
+        return isset($name, $jumps[$name]) ? $jumps[$name] : null;
     }
 
     /**
+     * @param array $flags
      * @return \Phplrt\Lexer\Driver\DriverInterface
      */
-    private function create(): DriverInterface
+    private function create(array $flags = []): DriverInterface
     {
         $class = $this->driver;
 
-        $tokens = \array_merge($this->tokens, [
+        $tokens = \array_merge($this->parent->tokens(), $this->tokens, [
             $this->unknown => '.+',
         ]);
 
-        return new $class($tokens, \array_keys($this->jumps));
+        $breaks = \array_keys(
+            \array_merge($this->parent->jumps(), $this->jumps)
+        );
+
+        return new $class($tokens, $breaks, $flags);
     }
 }
