@@ -9,12 +9,12 @@ declare(strict_types=1);
 
 namespace Phplrt\Lexer\State;
 
-use Phplrt\Lexer\Token\Token;
 use Phplrt\Contracts\Io\Readable;
-use Phplrt\Lexer\Driver\MarkedGroups;
 use Phplrt\Lexer\Driver\DriverInterface;
+use Phplrt\Lexer\Driver\MarkedGroups;
 use Phplrt\Lexer\Exception\InitializationException;
 use Phplrt\Lexer\Exception\UnrecognizedTokenException;
+use Phplrt\Lexer\Token\Token;
 
 /**
  * Class State

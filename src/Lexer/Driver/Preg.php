@@ -150,7 +150,7 @@ class Preg
     public function compile(\Closure $each, string $pattern = '%s'): string
     {
         $pattern = \sprintf($pattern, $this->compilePattern($each));
-        $flags = $this->compileFlags();
+        $flags   = $this->compileFlags();
 
         return self::DELIMITER . $pattern . self::DELIMITER . $flags;
     }
@@ -273,7 +273,7 @@ class Preg
     public static function assertLastError(?array $error): void
     {
         if ($error !== null) {
-            $code = $error['type'] ?? 0;
+            $code    = $error['type'] ?? 0;
             $message = $error['message'] ?? \sprintf(self::ERROR_UNEXPECTED, $code);
 
             throw new InitializationException($message, $code);
