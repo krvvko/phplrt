@@ -9,15 +9,14 @@ declare(strict_types=1);
 
 namespace Phplrt\Lexer;
 
-use Phplrt\Lexer\State\Factory;
+use Phplrt\Contracts\Io\Readable;
+use Phplrt\Contracts\Lexer\LexerInterface;
+use Phplrt\Lexer\Exception\InitializationException;
+use Phplrt\Lexer\Exception\RuntimeException;
 use Phplrt\Lexer\State\Grammar;
 use Phplrt\Lexer\State\GrammarInterface;
 use Phplrt\Lexer\State\State;
-use Phplrt\Contracts\Io\Readable;
 use Phplrt\Lexer\State\StateInterface;
-use Phplrt\Contracts\Lexer\LexerInterface;
-use Phplrt\Lexer\Exception\RuntimeException;
-use Phplrt\Lexer\Exception\InitializationException;
 
 /**
  * Class Lexer
