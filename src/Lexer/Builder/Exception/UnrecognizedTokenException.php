@@ -7,11 +7,12 @@
  */
 declare(strict_types=1);
 
-namespace Phplrt\Lexer\Exception;
+namespace Phplrt\Lexer\Builder\Exception;
 
 /**
- * Class RuntimeException
+ * Class UnrecognizedTokenException
  */
-class RuntimeException extends LexerException
+class UnrecognizedTokenException extends BuilderException
 {
+
 }

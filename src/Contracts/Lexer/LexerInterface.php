@@ -20,8 +20,8 @@ interface LexerInterface
      * Compiling the current state of the lexer and returning
      * stream tokens from the source file.
      *
-     * @param Readable $input
+     * @param Readable|string|resource|\SplFileInfo $input
      * @return \Traversable|TokenInterface[]
      */
-    public function lex(Readable $input): \Traversable;
+    public function lex($input): \Traversable;
 }

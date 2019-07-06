@@ -7,11 +7,12 @@
  */
 declare(strict_types=1);
 
-namespace Phplrt\Lexer\Exception;
+namespace Phplrt\Lexer\Builder\Exception;
 
 /**
- * Class RegularExpressionException
+ * Class UnrecognizedStateException
  */
-class RegularExpressionException extends InitializationException
+class UnrecognizedStateException extends BuilderException
 {
+
 }

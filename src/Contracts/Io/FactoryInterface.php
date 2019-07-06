@@ -63,4 +63,10 @@ interface FactoryInterface
      * @return Readable
      */
     public static function fromResource($resource, string $name = null): Readable;
+
+    /**
+     * @param mixed $sources
+     * @return \Phplrt\Contracts\Io\Readable
+     */
+    public static function new($sources): Readable;
 }

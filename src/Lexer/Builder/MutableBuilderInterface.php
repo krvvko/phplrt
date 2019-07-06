@@ -7,23 +7,24 @@
  */
 declare(strict_types=1);
 
-namespace Phplrt\Lexer\State;
+namespace Phplrt\Lexer\Builder;
 
 /**
- * Interface GrammarInterface
+ * Interface MutableBuilderInterface
  */
-interface GrammarInterface
+interface MutableBuilderInterface extends BuilderInterface
 {
     /**
-     * @return array|string[]
+     * @param iterable $tokens
+     * @return \Phplrt\Lexer\Builder\MutableBuilderInterface|$this
      */
-    public function tokens(): array;
+    public function add(iterable $tokens): self;
 
     /**
      * @param string $token
      * @param string $pattern
      * @param bool $skip
-     * @return \Phplrt\Lexer\State\GrammarInterface
+     * @return \Phplrt\Lexer\Builder\MutableBuilderInterface|$this
      */
     public function append(string $token, string $pattern, bool $skip = false): self;
 
@@ -31,30 +32,26 @@ interface GrammarInterface
      * @param string $token
      * @param string $pattern
      * @param bool $skip
-     * @return \Phplrt\Lexer\State\GrammarInterface
+     * @return \Phplrt\Lexer\Builder\MutableBuilderInterface|$this
      */
     public function prepend(string $token, string $pattern, bool $skip = false): self;
 
     /**
-     * @return array|string[]
+     * @param string ...$tokens
+     * @return \Phplrt\Lexer\Builder\MutableBuilderInterface|$this
      */
-    public function skips(): array;
+    public function skip(string ...$tokens): self;
 
     /**
-     * @param string ...$token
-     * @return \Phplrt\Lexer\State\GrammarInterface
+     * @param string ...$tokens
+     * @return \Phplrt\Lexer\Builder\MutableBuilderInterface|$this
      */
-    public function skip(string ...$token): self;
-
-    /**
-     * @return array|string[]
-     */
-    public function jumps(): array;
+    public function keep(string ...$tokens): self;
 
     /**
      * @param string $token
      * @param string $state
-     * @return \Phplrt\Lexer\State\GrammarInterface
+     * @return \Phplrt\Lexer\Builder\MutableBuilderInterface|$this
      */
     public function jump(string $token, string $state): self;
 }

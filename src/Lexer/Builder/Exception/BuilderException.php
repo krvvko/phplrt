@@ -7,11 +7,14 @@
  */
 declare(strict_types=1);
 
-namespace Phplrt\Lexer\Exception;
+namespace Phplrt\Lexer\Builder\Exception;
+
+use Phplrt\Lexer\Exception\LexerException;
 
 /**
- * Class InitializationException
+ * Class BuilderException
  */
-class InitializationException extends LexerException
+class BuilderException extends LexerException
 {
+
 }

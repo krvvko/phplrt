@@ -9,98 +9,143 @@ declare(strict_types=1);
 
 namespace Phplrt\Lexer;
 
-use Phplrt\Lexer\State\Factory;
-use Phplrt\Lexer\State\Grammar;
-use Phplrt\Lexer\State\GrammarInterface;
-use Phplrt\Lexer\State\State;
+use Phplrt\Io\File;
+use Phplrt\Lexer\Token\Token;
+use Phplrt\Lexer\Token\Unknown;
 use Phplrt\Contracts\Io\Readable;
-use Phplrt\Lexer\State\StateInterface;
+use Phplrt\Lexer\Token\EndOfInput;
 use Phplrt\Contracts\Lexer\LexerInterface;
-use Phplrt\Lexer\Exception\RuntimeException;
-use Phplrt\Lexer\Exception\InitializationException;
+use Phplrt\Lexer\Exception\UnrecognizedTokenException;
 
 /**
  * Class Lexer
  */
-class Lexer implements LexerInterface, Stateless
+class Lexer implements LexerInterface
 {
     /**
-     * @var array|\Phplrt\Lexer\State\StateInterface[]
+     * @var int
+     */
+    private const PREG_FLAGS = \PREG_SET_ORDER;
+
+    /**
+     * @var mixed
+     */
+    private const GROUP_VALUE = 0x00;
+
+    /**
+     * @var mixed
+     */
+    private const GROUP_NAME = 'MARK';
+
+    /**
+     * @var array
      */
     private $states;
 
     /**
-     * @var \Phplrt\Lexer\State\GrammarInterface
-     */
-    private $global;
-
-    /**
      * @var string
      */
-    private $state = 'default';
+    private $state;
 
     /**
      * Lexer constructor.
      *
-     * @param array $tokens
-     * @param array $skip
+     * @param array $states
+     * @param string $state
      */
-    public function __construct(array $tokens = [], array $skip = [])
+    public function __construct(array $states, string $state)
     {
-        $this->global = new Grammar($tokens, $skip);
+        $this->states = $states;
+        $this->state = $state;
     }
 
     /**
-     * @return \Phplrt\Lexer\State\GrammarInterface
+     * @param \Phplrt\Contracts\Io\Readable|resource|\SplFileInfo|string $input
+     * @return \Traversable
+     * @throws \Phplrt\Lexer\Exception\LexerException
      */
-    public function global(): GrammarInterface
+    public function lex($input): \Traversable
     {
-        return $this->global;
-    }
+        $input = File::new($input);
+        $content = $input->getContents();
 
-    /**
-     * @param string $name
-     * @return \Phplrt\Lexer\State\StateInterface
-     * @throws \Phplrt\Lexer\Exception\InitializationException
-     */
-    public function state(string $name = self::DEFAULT_STATE): StateInterface
-    {
-        return $this->states[$name] ?? $this->states[$name] = new State($this->global);
+        yield from $this->run($input, $this->state, $content);
+
+        yield new EndOfInput(\strlen($content));
     }
 
     /**
      * @param \Phplrt\Contracts\Io\Readable $input
+     * @param string $state
+     * @param string $content
+     * @param int $offset
      * @return \Traversable|\Phplrt\Contracts\Lexer\TokenInterface[]
-     * @throws \Phplrt\Lexer\Exception\InitializationException
-     * @throws \Phplrt\Lexer\Exception\RuntimeException
+     * @throws \Phplrt\Lexer\Exception\LexerException
+     * @throws \Phplrt\Lexer\Exception\UnrecognizedTokenException
      */
-    public function lex(Readable $input): \Traversable
+    private function run(Readable $input, string $state, string $content, int $offset = 0): \Traversable
     {
-        [$offset, $content, $state] = [0, $input->getContents(), $this->state];
+        $generator = $this->exec($input, $state, $content, $offset);
 
-        $runtime = \count($this->states) === 0
-            ? new State($this->global)
-            : $this->current($state);
+        while ($generator->valid()) {
+            [$name, $value, $offset] = $generator->current();
 
-        yield from $last = $runtime->exec($input, $content, $offset);
+            if (! \in_array($name, $this->states[$state][1], true)) {
+                yield $token = new Token($name, $value, $offset);
+            }
+
+            $generator->next();
+        }
+
+        if (isset($token)) {
+            $offset += $token->getBytes();
+        }
+
+        if ($next = (string)$generator->getReturn()) {
+            yield from $this->run($input, $next, $content, $offset);
+        }
     }
 
     /**
-     * @param string|null $state
-     * @return \Phplrt\Lexer\State\StateInterface
-     * @throws \Phplrt\Lexer\Exception\InitializationException
-     * @throws \Phplrt\Lexer\Exception\RuntimeException
+     * @param \Phplrt\Contracts\Io\Readable $input
+     * @param string $state
+     * @param string $content
+     * @param int $offset
+     * @return \Generator|string
+     * @throws \Phplrt\Lexer\Exception\UnrecognizedTokenException
      */
-    private function current(string $state): StateInterface
+    private function exec(Readable $input, string $state, string $content, int $offset = 0): \Generator
     {
-        if (\count($this->states) === 0) {
-            throw new InitializationException('No tokens were defined');
-        }
+        [$pattern, , $jumps] = $this->states[$state];
 
-        if (! isset($this->states[$state])) {
-            throw new RuntimeException('Unrecognized state "' . $state . '"');
-        }
+        \preg_match_all($pattern, $content, $matches, self::PREG_FLAGS, $offset);
 
-        return $this->states[$state];
+        foreach ($matches as [self::GROUP_NAME => $name, self::GROUP_VALUE => $value]) {
+            if ($name === Unknown::T_NAME) {
+                throw $this->unknownToken($input, $value, $offset);
+            }
+
+            yield [$name, $value, $offset];
+
+            $offset += \strlen($value);
+
+            if (isset($jumps[$name])) {
+                return $jumps[$name];
+            }
+        }
+    }
+
+    /**
+     * @param \Phplrt\Contracts\Io\Readable $input
+     * @param string $value
+     * @param int $offset
+     * @return \Phplrt\Lexer\Exception\UnrecognizedTokenException
+     */
+    private function unknownToken(Readable $input, string $value, int $offset): UnrecognizedTokenException
+    {
+        $exception = new UnrecognizedTokenException(new Unknown($value, $offset));
+        $exception->throwsIn($input, $offset);
+
+        return $exception;
     }
 }

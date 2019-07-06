@@ -22,7 +22,8 @@ interface MutableExceptionInterface extends
     MutableCodeInterface,
     MutableFileInterface,
     MutableMessageInterface,
-    MutablePositionInterface
+    MutablePositionInterface,
+    ExternalExceptionInterface
 {
     /**
      * @param Readable|string $file

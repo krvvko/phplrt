@@ -11,6 +11,7 @@ namespace Phplrt\Io;
 
 use Phplrt\Contracts\Io\FactoryInterface;
 use Phplrt\Contracts\Io\Readable;
+use Phplrt\Io\Exception\FileException;
 use Phplrt\Io\Exception\NotReadableException;
 use Phplrt\Io\File\Physical;
 use Phplrt\Io\File\Virtual;
@@ -92,5 +93,33 @@ trait FactoryTrait
         }
 
         return \gettype($resource) === 'unknown type';
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public static function new($sources): Readable
+    {
+        switch (true) {
+            case $sources instanceof Readable:
+                return $sources;
+
+            case $sources instanceof \SplFileInfo:
+                return static::fromSplFileInfo($sources);
+
+            case \is_string($sources):
+                return static::fromSources($sources);
+
+            case $sources instanceof StreamInterface:
+                return static::fromPsrStream($sources);
+
+            case \is_resource($sources):
+                return static::fromResource($sources);
+
+            default:
+                $message = 'Unrecognized readable file type "%s"';
+
+                throw new FileException(\sprintf($message, \gettype($sources)));
+        }
     }
 }
