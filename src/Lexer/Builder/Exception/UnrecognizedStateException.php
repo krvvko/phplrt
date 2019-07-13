@@ -14,5 +14,4 @@ namespace Phplrt\Lexer\Builder\Exception;
  */
 class UnrecognizedStateException extends BuilderException
 {
-
 }

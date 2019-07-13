@@ -16,5 +16,4 @@ use Phplrt\Lexer\Exception\LexerException;
  */
 class BuilderException extends LexerException
 {
-
 }

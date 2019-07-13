@@ -37,7 +37,7 @@ class LexemeException extends BuilderException
     public function __construct(string $token, string $lexeme, array $last = [], \Throwable $e = null)
     {
         [$suffix, $offset] = $this->extract($last);
-        $suffix = $suffix ? ': ' . $suffix : '';
+        $suffix            = $suffix ? ': ' . $suffix : '';
 
         parent::__construct(\sprintf(self::ERROR_BAD_LEXEME, $lexeme, $token) . $suffix, 0, $e);
 
@@ -54,7 +54,7 @@ class LexemeException extends BuilderException
         if (isset($last['message'])) {
             \preg_match(self::ERROR_PATTERN, $last['message'], $matches);
 
-            if (count($matches) === 3) {
+            if (\count($matches) === 3) {
                 return [\ucfirst(\trim($matches[1])), $matches[2]];
             }
         }

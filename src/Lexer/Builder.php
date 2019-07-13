@@ -10,9 +10,9 @@ declare(strict_types=1);
 namespace Phplrt\Lexer;
 
 use Phplrt\Contracts\Lexer\LexerInterface;
-use Phplrt\Lexer\Builder\State;
-use Phplrt\Lexer\Builder\MutableBuilderTrait;
 use Phplrt\Lexer\Builder\MutableBuilderInterface;
+use Phplrt\Lexer\Builder\MutableBuilderTrait;
+use Phplrt\Lexer\Builder\State;
 
 /**
  * Class Builder

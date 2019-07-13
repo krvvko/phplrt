@@ -9,13 +9,13 @@ declare(strict_types=1);
 
 namespace Phplrt\Lexer;
 
+use Phplrt\Contracts\Io\Readable;
+use Phplrt\Contracts\Lexer\LexerInterface;
 use Phplrt\Io\File;
+use Phplrt\Lexer\Exception\UnrecognizedTokenException;
+use Phplrt\Lexer\Token\EndOfInput;
 use Phplrt\Lexer\Token\Token;
 use Phplrt\Lexer\Token\Unknown;
-use Phplrt\Contracts\Io\Readable;
-use Phplrt\Lexer\Token\EndOfInput;
-use Phplrt\Contracts\Lexer\LexerInterface;
-use Phplrt\Lexer\Exception\UnrecognizedTokenException;
 
 /**
  * Class Lexer
@@ -56,7 +56,7 @@ class Lexer implements LexerInterface
     public function __construct(array $states, string $state)
     {
         $this->states = $states;
-        $this->state = $state;
+        $this->state  = $state;
     }
 
     /**
@@ -66,7 +66,7 @@ class Lexer implements LexerInterface
      */
     public function lex($input): \Traversable
     {
-        $input = File::new($input);
+        $input   = File::new($input);
         $content = $input->getContents();
 
         yield from $this->run($input, $this->state, $content);
